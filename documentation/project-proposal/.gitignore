@@ -1,0 +1,9 @@
+# LaTeX build output (index.pdf is kept so reviewers can read it without LaTeX)
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+missfont.log
+figures/*.pdf
