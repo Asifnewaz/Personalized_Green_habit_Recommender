@@ -1,0 +1,31 @@
+name: Compile LaTeX Proposal
+
+on:
+  push:
+    paths:
+      - 'documentation/project-proposal/**.tex'
+  workflow_dispatch: # Allows manual trigger from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX Document
+        uses: dante-ev/latex-action@v0.2.0
+        with:
+          root_file: index.tex
+          working_directory: documentation/project-proposal
+          args: -pdf -file-line-error -interaction=nonstopmode
+
+      - name: Commit and push updated PDF
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add documentation/project-proposal/index.pdf
+          git commit -m "Auto-compile index.pdf [skip ci]" || echo "No changes to commit"
+          git push
