@@ -210,17 +210,51 @@ All preprocessing is implemented in R (\pkg{dplyr}, \pkg{tidyr}, \pkg{lubridate}
 
 \subsection{Data Mining and Recommendation Models (R)}
 \label{sec:ml}
-\begin{phsection}{section to be written by \ph{team member name}}
-This section describes the models that run in the R analytics service and how they are evaluated. Suggested outline, taken from the concept deck:
-\begin{itemize}
-\item \emph{Green Hours forecast:} SMARD generation mix $\rightarrow$ hourly \COtwo{} intensity $\rightarrow$ tomorrow's green window per user.
-\item \emph{Recommendation ranking:} \pkg{recommenderlab} combined with impact/ease scoring -- which habit next?
-\item \emph{Association rules:} \pkg{arules}, e.g.\ Sto\ss l\"uften $\rightarrow$ lower thermostat (habit stacking).
-\item \emph{Clustering:} $k$-means personas from check-in behaviour; tips that worked for similar users.
-\item \emph{Evaluation:} before/after and A/B tests of nudges; the real test of a habit is whether the behaviour continues after the prompts fade; metrics and the handling of the cold start.
-\end{itemize}
-Replace everything between the red rules with the final text.
-\end{phsection}
+The data processing, modeling pipelines, and execution workflows run in an independent R service connected to the FastAPI back-end through \pkg{plumber}. This analytics pipeline ingests external grid data, generates personalized recommendations, identifies habit connections, segments users, and runs statistical evaluations.
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Green Hours Forecast Pipeline}
+    \begin{itemize}[label=--]
+        \item \textbf{Model / Algorithm:} Weighted-mean emission factor calculation and time-series forward-fill interpolation.
+        \item \textbf{Packages Used:} \pkg{httr2} or \pkg{bunddev} (API data fetching), \pkg{dplyr} (data manipulation), and \pkg{lubridate} (hourly timestamp alignment to Europe/Berlin).
+        \item \textbf{Pipeline:} The service fetches generation mixes and day-ahead forecasts from the SMARD platform. It resamples quarter-hourly entries to hourly intervals, fills gaps up to two hours via carry-forward, and computes the hourly carbon intensity ($g\text{ }\COtwo{}/\text{kWh}$) using official UBA emission factors. The forecast is matched against the user's home availability schedule to identify the cleanest hours for flexible appliances like washing machines and dishwashers.
+    \end{itemize}
+
+    \item \textbf{Recommendation Ranking Pipeline}
+    \begin{itemize}[label=--]
+        \item \textbf{Model / Algorithm:} Multi-attribute utility heuristic (for cold start) and Item-Based Collaborative Filtering (IBCF).
+        \item \textbf{Packages Used:} \pkg{recommenderlab} (collaborative filtering and rating matrices) and \pkg{dplyr} (heuristic scoring).
+        \item \textbf{Pipeline:} During onboarding, candidate habits are filtered by user prerequisites (such as heating type and appliance availability) and scored using a utility heuristic based on estimated \COtwo{} savings, ease, and schedule fit. Once interaction histories and survey records accumulate, an IBCF model calculates item similarities over user completion matrices to recommend habits that succeeded for similar profiles.
+    \end{itemize}
+
+    \item \textbf{Habit Stacking Association Pipeline}
+    \begin{itemize}[label=--]
+        \item \textbf{Model / Algorithm:} Apriori association rule mining algorithm.
+        \item \textbf{Packages Used:} \pkg{arules} (mining frequent itemsets and association rules).
+        \item \textbf{Pipeline:} Check-in logs are grouped into routine-based transactions. The Apriori algorithm identifies recurring habit combinations using configured support, confidence, and lift thresholds. When a user consistently maintains one habit (e.g., \emph{Sto\ss l\"uften}), rules with a lift greater than 1 trigger nudges for a linked habit (e.g., lowering the thermostat).
+    \end{itemize}
+
+    \item \textbf{User Persona Clustering Pipeline}
+    \begin{itemize}[label=--]
+        \item \textbf{Model / Algorithm:} $k$-means clustering (with $k$-medoids / \pkg{pam} as an outlier-resistant alternative).
+        \item \textbf{Packages Used:} \pkg{stats} (base \texttt{kmeans}), \pkg{cluster} (medoid clustering), and \pkg{factoextra} (silhouette evaluation).
+        \item \textbf{Pipeline:} Normalized user feature vectors are built from daytime home availability, completion rates across habit types, and notification dismissal rates. Users are partitioned into distinct behavioral clusters (e.g., daytime vs.\ weekend savers), with the optimal cluster count determined by silhouette analysis. Centroids help tailor default nudges for newly onboarded users.
+    \end{itemize}
+
+    \item \textbf{Evaluation and Nudge Testing Pipeline}
+    \begin{itemize}[label=--]
+        \item \textbf{Model / Algorithm:} Cross-validation evaluation metrics (Precision@$k$, Recall@$k$, MAE) and paired hypothesis testing (paired $t$-test / Wilcoxon signed-rank test).
+        \item \textbf{Packages Used:} \pkg{recommenderlab} (recommender accuracy benchmarks) and \pkg{stats} (hypothesis tests).
+        \item \textbf{Pipeline:} Recommender accuracy is validated on synthetic and survey data splits using 5-fold cross-validation. To evaluate whether nudges produce lasting habits, reminders are faded after an initial consistency period. Paired tests compare check-in adherence before and after fading to verify that behavior persists without prompts.
+    \end{itemize}
+
+    \item \textbf{API Execution and Green Optimization Pipeline}
+    \begin{itemize}[label=--]
+        \item \textbf{Model / Algorithm:} Scheduled batch processing with algorithmic profiling via \pkg{bench} and \pkg{profvis}.
+        \item \textbf{Packages Used:} \pkg{plumber} (REST API generation), \pkg{DBI} and \pkg{RPostgres} (database communication), and \pkg{bench} / \pkg{profvis} (performance and green code profiling).
+        \item \textbf{Pipeline:} Endpoints serve fast lookup queries, while data-heavy jobs (SMARD downloads, clustering, matrix recomputation) execute as scheduled nightly batch runs to keep server CPU usage low. All R functions are profiled across sprints using \pkg{bench} and \pkg{profvis} to measure and reduce execution runtime and memory overhead in line with green computing goals.
+    \end{itemize}
+\end{enumerate}
 
 \subsection{Behaviour Change and Personalisation Design}
 Personalisation happens at three levels. On day one, the \emph{profile} from the onboarding quiz filters the habit catalogue: only habits whose prerequisites the flat fulfils are shown. After one to two weeks, the user's \emph{behaviour} -- check-ins, dismissals, response times to prompts -- assigns them to a persona cluster, and tips that worked for similar users are preferred (Section~\ref{sec:ml}). On an ongoing basis, \emph{feedback} adjusts the feed: dismissed tips fade out and mastered habits unlock the next step. Personalisation also applies to time: a user who is at home from 18:00 to 22:00 is told that 19:00 is their greenest slot, not that noon would have been better.
