@@ -15,7 +15,7 @@
   arr/.style={-{Latex[length=2mm]}, thick},
   darr/.style={{Latex[length=2mm]}-{Latex[length=2mm]}, thick},
   lbl/.style={font=\scriptsize, inner sep=2pt}]
-\node[box] (fe) {\textbf{Front-end}\\ web app (React/TypeScript)\\ \emph{or} iOS app (SwiftUI)\\[1pt] \scriptsize decision in Sprint 1};
+\node[box] (fe) {\textbf{Front-end}\\ native iOS app\\ Swift / SwiftUI\\[1pt] \scriptsize local notifications, offline cache};
 \node[box, right=of fe] (be) {\textbf{Back-end API}\\ FastAPI (REST/JSON)\\[1pt] \scriptsize auth, profiles, habits, commitments,\\ \scriptsize WG groups, scheduler, R bridge};
 \node[data, right=of be] (db) {\textbf{PostgreSQL}\\[1pt] \scriptsize users, flats, habits,\\ \scriptsize check-ins, grid cache,\\ \scriptsize recommendations};
 \node[box, below=14mm of be] (r) {\textbf{R analytics service}\\ \pkg{plumber} API\\[1pt] \scriptsize forecast, recommender, rules,\\ \scriptsize clustering, evaluation};

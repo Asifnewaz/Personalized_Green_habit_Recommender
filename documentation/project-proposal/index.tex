@@ -6,10 +6,8 @@
 %%  Compile with pdflatex (IEEEtran class, included in Overleaf / TeX Live).
 %%  The diagrams are PNGs in figures/; edit the matching figures/*.tex
 %%  source and run ./build-figures.sh to re-render them.
-%%  Everything printed in RED is a placeholder:
-%%     \ph{...}                 short placeholders (names, matriculation numbers, links)
-%%     \begin{phsection}...     the whole section reserved for the ML / data-mining models
-%%  Search the file for "\ph{" and "phsection" to find them all.
+%%  \ph{...} prints a RED placeholder for anything still to be filled in
+%%  (none at the moment). Search the file for "\ph{" to find them.
 %% =====================================================================
 \documentclass[conference]{IEEEtran}
 \usepackage[utf8]{inputenc}
@@ -24,13 +22,6 @@
 
 % ---------- placeholders -------------------------------------------------
 \newcommand{\ph}[1]{\textcolor{red}{\textbf{[#1]}}}
-% A whole placeholder section: red rules above and below, dark-red text.
-% (Breakable across columns, unlike a framed box.)
-\newenvironment{phsection}[1]{%
-  \par\noindent\textcolor{red}{\rule{\columnwidth}{0.8pt}}\par\smallskip
-  \noindent\textbf{\textcolor{red}{PLACEHOLDER -- #1}}\par\smallskip
-  \color{red!55!black}}{%
-  \par\smallskip\noindent\textcolor{red}{\rule{\columnwidth}{0.8pt}}\par}
 % ---------- small helpers ------------------------------------------------
 \newcommand{\COtwo}{CO$_2$}
 \newcommand{\pkg}[1]{\texttt{#1}}
@@ -56,7 +47,7 @@ Supervisor: Prof.\ Dr.\ Christina Andersson}
 \maketitle
 
 \begin{abstract}
-This proposal outlines the design and development plan for \emph{Home Energy Coach}, a Personalized Green Habit Recommender developed as part of the High Integrity Systems Project at Frankfurt University of Applied Sciences (WS~2026/27). The application targets students and renters in shared flats (WGs), who cannot change their building's insulation or heating system but can change their daily habits. Users complete a short energy profile, receive a ranked feed of habits that fit their flat and schedule, commit to one small goal at a time and are prompted at the right moment. The signature feature is the \emph{Green Hours planner}: using live generation data of the German electricity market from the Bundesnetzagentur's SMARD platform, it tells each user the lowest-\COtwo{} hours for laundry, dishwasher and charging, fitted to the hours they are actually at home. A FastAPI back-end coordinates the application logic and delegates all data analysis -- the hourly \COtwo{} forecast, recommendation ranking, association-rule mining, user clustering and the evaluation of nudges -- to an R analytics service exposed through the \pkg{plumber} package. User data is persisted in PostgreSQL and the whole system is containerized with Docker. In line with the course's green software requirement, the energy and resource consumption of the application itself is measured from the first prototype on, reduced in every sprint and shown to users in the app. The project follows Scrum over five sprints with rotating Scrum Master and Product Owner roles, and all progress is tracked in Jira.
+This proposal outlines the design and development plan for \emph{Home Energy Coach}, a Personalized Green Habit Recommender developed as part of the High Integrity Systems Project at Frankfurt University of Applied Sciences (WS~2026/27). The application targets students and renters in shared flats (WGs), who cannot change their building's insulation or heating system but can change their daily habits. Users complete a short energy profile, receive a ranked feed of habits that fit their flat and schedule, commit to one small goal at a time and are prompted at the right moment. The signature feature is the \emph{Green Hours planner}: using live generation data of the German electricity market from the Bundesnetzagentur's SMARD platform, it tells each user the lowest-\COtwo{} hours for laundry, dishwasher and charging, fitted to the hours they are actually at home. The native iOS app (SwiftUI) talks to a FastAPI back-end, which coordinates the application logic and delegates all data analysis -- the hourly \COtwo{} forecast, recommendation ranking, association-rule mining, user clustering and the evaluation of nudges -- to an R analytics service exposed through the \pkg{plumber} package. User data is persisted in PostgreSQL and the server side is containerised with Docker. In line with the course's green software requirement, the energy and resource consumption of the application itself is measured from the first prototype on, reduced in every sprint and shown to users in the app. The project follows Scrum over five sprints with rotating Scrum Master and Product Owner roles, and all progress is tracked in Jira.
 \end{abstract}
 
 \section{Introduction}
@@ -66,11 +57,11 @@ The timing aspect is what makes this project more than a list of tips. The \COtw
 
 Information alone, however, rarely changes behaviour; the gap between good intentions and action is well documented. Home Energy Coach is therefore designed as a habit-building system rather than an information app. It follows the Fogg Behavior Model, in which a behaviour occurs only when motivation, ability and a prompt come together at the same moment~\cite{fogg2009}, and the habit loop of cue, routine and reward. Users commit to one small, concrete goal at a time -- an implementation intention of the form ``when X, I do Y''~\cite{gollwitzer1999} -- are prompted exactly when the green window opens, and see the saved \COtwo{} and their streak immediately afterwards. Behaviour that is repeated in the same context for several weeks becomes automatic~\cite{lally2010}; the app then fades its prompts and proposes the next habit.
 
-This proposal describes the planned development of Home Energy Coach as the team's realisation of the course topic \emph{Personalized Green Habit Recommender}. The system consists of a front-end (web or native iOS, see Section~\ref{sec:frontend}), a FastAPI back-end and an R analytics service that performs all data analysis and data mining tasks and is accessed through the \pkg{plumber} package. Development follows Scrum over five sprints, with all work tracked in Jira and source code managed collaboratively on GitHub. A particular advantage of the chosen domain is that the team itself belongs to the target group, so the app can be piloted on its own developers in the final sprint.
+This proposal describes the planned development of Home Energy Coach as the team's realisation of the course topic \emph{Personalized Green Habit Recommender}. The system consists of a native iOS app built with SwiftUI (Section~\ref{sec:frontend}), a FastAPI back-end and an R analytics service that performs all data analysis and data mining tasks and is accessed through the \pkg{plumber} package. Development follows Scrum over five sprints, with all work tracked in Jira and source code managed collaboratively on GitHub. A particular advantage of the chosen domain is that the team itself belongs to the target group, so the app can be piloted on its own developers in the final sprint.
 
 \subsection{Objectives}
 \begin{enumerate}
-\item Build a platform that recommends personalized home-energy habits to students and renters and prompts them at the right moment, including the greenest hours of the day derived from live German grid data.
+\item Build a platform that recommends personalised home-energy habits to students and renters and prompts them at the right moment, including the greenest hours of the day derived from live German grid data.
 \item Use R~\cite{rcore} for all data analysis and data mining tasks: the hourly \COtwo{} forecast, the recommendation ranking, association rules, clustering and the evaluation of nudges.
 \item Deliver at least eight distinct user interfaces beyond standard CRUD and authentication screens; eleven are planned (Section~\ref{sec:ui}).
 \item Measure the energy and resource consumption of the application itself from the first prototype on, and reduce it in every subsequent sprint.
@@ -116,13 +107,19 @@ The aim of the project is to turn public energy data and a short user profile in
 \item \textbf{The app's own footprint.} An app that nudges people to save energy while wasting energy on its own servers would contradict its purpose. Its consumption has to be measured and reduced as part of the project.
 \end{itemize}
 
+\subsection{Scope}
+\label{sec:scope}
+\textbf{In scope.} A native iOS app with the eleven screens of Section~\ref{sec:ui}; a FastAPI back-end with PostgreSQL; an R analytics service with the pipelines of Section~\ref{sec:ml}; the Green Hours planner for the German electricity grid, based on SMARD data; a catalogue of 22 home-energy habits covering heating, ventilation, hot water, appliances and standby; WG groups, agreements and challenges; the measurement and reduction of the app's own footprint; and a two-week pilot with the team in Sprint~5.
+
+\textbf{Out of scope.} Android and web clients; automatic control of appliances, smart plugs or thermostats; automatic integration of smart meters or utility accounts (meter readings are entered manually); electricity grids outside Germany; other areas of the course topic such as transport, food and shopping habits; tariff switching and payments; and a public App Store release -- the app reaches pilot users through TestFlight only. These limits keep the project within the available 1\,800 team hours; an Android client and smart-plug integration are noted as future work.
+
 \subsection{Example Scenario}
 Lena's laundry illustrates the intended five-week path from awareness to habit. In week~0 the onboarding quiz tells her that her WG's laundry causes roughly 4\,kg \COtwo{} per month. In week~1 she commits to a single small goal: one load in green hours on Saturday. On Saturday at 11:30 the app alerts her that a green window opens from 12:00 to 15:00; she starts the machine at noon and sees $-0.4$\,kg \COtwo{}, a streak of one and her WG at rank~2 in the challenge. In weeks 2--4 the goal grows and her flatmates join. From week~5 she runs the machine in green hours without being asked; the prompts fade and the app proposes the next habit, lowering the thermostat by 1\,\textdegree C. All figures are illustrative; the real ones come from SMARD and the user's profile.
 
 \section{Methodology}
 
 \subsection{Development Process}
-The project follows the Scrum framework and is divided into the five sprints prescribed by the course: four two-week sprints and a final three-week sprint, starting on 26~October 2026 and ending with the final delivery on 25~January 2027 (Table~\ref{tab:sprints}). The practical classes in the first week of each sprint are used for cumulative project work; in the second week the team presents a summary of the completed work. In addition, the team meets the supervisor in the weekly online project meeting. Every sprint contains Sprint Planning, daily stand-ups, a Sprint Review and a Sprint Retrospective; evidence of all four is documented on the Jira board. The course corresponds to 10~ECTS, i.e.\ about 300 working hours per member or roughly 1\,500 team hours over the 13 project weeks, which the sprint backlogs are sized against.
+The project follows the Scrum framework and is divided into the five sprints prescribed by the course: four two-week sprints and a final three-week sprint, starting on 26~October 2026 and ending with the final delivery on 25~January 2027 (Table~\ref{tab:sprints}). The practical classes in the first week of each sprint are used for cumulative project work; in the second week the team presents a summary of the completed work. In addition, the team meets the supervisor in the weekly online project meeting. Every sprint contains Sprint Planning, daily stand-ups, a Sprint Review and a Sprint Retrospective; evidence of all four is documented on the Jira board. The course corresponds to 10~ECTS, i.e.\ about 300 working hours per member or roughly 1\,800 team hours for the six members over the 13 project weeks, which the sprint backlogs are sized against.
 
 \begin{table}[!t]
 \caption{Sprint Timeline}
@@ -150,22 +147,51 @@ All tasks are tracked in Jira with the boards Product Backlog, To Do / In Progre
   \href{https://github.com/Asifnewaz/Personalized_Green_habit_Recommender}{\nolinkurl{github.com/Asifnewaz/Personalized_Green_habit_Recommender}}
 \end{itemize}
 
-The Scrum Master (Team Captain) and the Product Owner rotate every sprint as shown in Table~\ref{tab:roles}. With five members and five sprints every member holds each role exactly once, and nobody holds both roles in the same sprint. The Product Owner maintains and prioritises the product backlog and decides what the sprint delivers; the Scrum Master facilitates the Scrum events, keeps the board up to date and removes impediments.
+The Scrum Master (Team Captain) and the Product Owner rotate as shown in Table~\ref{tab:roles}. Because the team has six members but the course has only five sprints, the three-week Sprint~5 is split into two role periods, 5a and 5b, of about ten days each. In this way every member holds each role exactly once, and nobody holds both roles in the same period. The split of Sprint~5 is subject to confirmation by the supervisor. The Product Owner maintains and prioritises the product backlog and decides what the sprint delivers; the Scrum Master facilitates the Scrum events, keeps the board up to date and removes impediments.
 
 \begin{table}[!t]
 \caption{Rotation of the Scrum Roles}
 \label{tab:roles}
 \centering
-\footnotesize
-\begin{tabular}{@{}cll@{}}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}clll@{}}
 \toprule
-Sprint & Scrum Master & Product Owner \\
+Sprint & Dates & Scrum Master & Product Owner \\
 \midrule
-1 & \ph{Member 1} & \ph{Member 2} \\
-2 & \ph{Member 2} & \ph{Member 3} \\
-3 & \ph{Member 3} & \ph{Member 4} \\
-4 & \ph{Member 4} & \ph{Member 5} \\
-5 & \ph{Member 5} & \ph{Member 1} \\
+1  & 26 Oct -- 6 Nov  & Mazba Uddin              & Asif Newaz \\
+2  & 9 -- 20 Nov      & Madhusudan Ambulkar      & Muhammad Saad Zafar \\
+3  & 23 Nov -- 4 Dec  & Md.\ Rabiul Hasan Tanvir & Nazmul Alam \\
+4  & 7 -- 18 Dec      & Nazmul Alam              & Madhusudan Ambulkar \\
+5a & 4 -- 14 Jan      & Muhammad Saad Zafar      & Mazba Uddin \\
+5b & 15 -- 25 Jan     & Asif Newaz               & Md.\ Rabiul Hasan Tanvir \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Team Responsibilities}
+\label{sec:responsibilities}
+Besides the rotating Scrum roles, the work is divided into technical and organisational areas (Table~\ref{tab:resp}). An area owner is accountable for the quality and timely delivery of the area and is the first point of contact for it, but does not do all of its work alone. A member can own or contribute to several areas, and an area can have several owners; the R analytics, the largest and most specialised area, has at least two, so that the knowledge does not depend on a single person. Every member writes code and reviews other members' pull requests. Members are listed by surname; the assignment is also recorded in the team contract in Jira.
+
+\begin{table}[!t]
+\caption{Areas of Responsibility}
+\label{tab:resp}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{1.75cm}L{4.45cm}L{1.9cm}@{}}
+\toprule
+Area & Main responsibilities & Members \\
+\midrule
+R analytics & SMARD pipeline and Green Hours forecast, recommender, association rules, clustering, evaluation; \pkg{testthat} tests & Ambulkar, Tanvir \\
+Back-end and database & FastAPI services, API contract, authentication, PostgreSQL schema, scheduler, R bridge; \pkg{pytest} tests & Uddin, Zafar \\
+iOS app & SwiftUI screens, local and push notifications, offline cache, accessibility; XCTest and XCUITest & Newaz \\
+UX and design & Personas, scenarios, survey, Figma wireframes and mockups, usability tests in the pilot & Newaz, Tanvir \\
+Architecture and modelling & Architecture document and its justification; use case, class, activity and sequence diagrams & Zafar, Newaz, Ambulkar \\
+Data and synthetic users & Open-data downloads (UBA, Stromspiegel, REFIT), habit catalogue figures, synthetic users, survey analysis & Ambulkar, Alam \\
+Green software & Baseline and per-sprint measurements, optimisation backlog, data for the ``How green is this app?'' screen & Uddin, Alam \\
+DevOps and quality & Docker Compose, GitHub Actions, test strategy, code-review rules, Definition of Done & Zafar, Newaz \\
+Documentation & Proposal, user documentation, final report, Artifacts board in Jira & Alam, Tanvir \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -210,7 +236,7 @@ All preprocessing is implemented in R (\pkg{dplyr}, \pkg{tidyr}, \pkg{lubridate}
 
 \subsection{Data Mining and Recommendation Models (R)}
 \label{sec:ml}
-The data processing, modeling pipelines, and execution workflows run in an independent R service connected to the FastAPI back-end through \pkg{plumber}. This analytics pipeline ingests external grid data, generates personalized recommendations, identifies habit connections, segments users, and runs statistical evaluations.
+The data processing, modelling pipelines, and execution workflows run in an independent R service connected to the FastAPI back-end through \pkg{plumber}. This analytics pipeline ingests external grid data, generates personalised recommendations, identifies habit connections, segments users, and runs statistical evaluations.
 
 \begin{enumerate}
     \item \textbf{Green Hours Forecast Pipeline}
@@ -238,17 +264,17 @@ The data processing, modeling pipelines, and execution workflows run in an indep
     \begin{itemize}
         \item \textbf{Model / Algorithm:} $k$-means clustering (with $k$-medoids / \pkg{pam} as an outlier-resistant alternative).
         \item \textbf{Packages Used:} \pkg{stats} (base \texttt{kmeans}), \pkg{cluster} (medoid clustering), and \pkg{factoextra} (silhouette evaluation).
-        \item \textbf{Pipeline:} Normalized user feature vectors are built from daytime home availability, completion rates across habit types, and notification dismissal rates. Users are partitioned into distinct behavioral clusters (e.g., daytime vs.\ weekend savers), with the optimal cluster count determined by silhouette analysis. Centroids help tailor default nudges for newly onboarded users.
+        \item \textbf{Pipeline:} Normalised user feature vectors are built from daytime home availability, completion rates across habit types, and notification dismissal rates. Users are partitioned into distinct behavioural clusters (e.g., daytime vs.\ weekend savers), with the optimal cluster count determined by silhouette analysis. Centroids help tailor default nudges for newly onboarded users.
     \end{itemize}
 
     \item \textbf{Evaluation and Nudge Testing Pipeline}
     \begin{itemize}
         \item \textbf{Model / Algorithm:} Cross-validation evaluation metrics (Precision@$k$, Recall@$k$, MAE) and paired hypothesis testing (paired $t$-test / Wilcoxon signed-rank test).
         \item \textbf{Packages Used:} \pkg{recommenderlab} (recommender accuracy benchmarks) and \pkg{stats} (hypothesis tests).
-        \item \textbf{Pipeline:} Recommender accuracy is validated on synthetic and survey data splits using 5-fold cross-validation. To evaluate whether nudges produce lasting habits, reminders are faded after an initial consistency period. Paired tests compare check-in adherence before and after fading to verify that behavior persists without prompts.
+        \item \textbf{Pipeline:} Recommender accuracy is validated on synthetic and survey data splits using 5-fold cross-validation. To evaluate whether nudges produce lasting habits, reminders are faded after an initial consistency period. Paired tests compare check-in adherence before and after fading to verify that behaviour persists without prompts.
     \end{itemize}
 
-    \item \textbf{API Execution and Green Optimization Pipeline}
+    \item \textbf{API Execution and Green Optimisation Pipeline}
     \begin{itemize}
         \item \textbf{Model / Algorithm:} Scheduled batch processing with algorithmic profiling via \pkg{bench} and \pkg{profvis}.
         \item \textbf{Packages Used:} \pkg{plumber} (REST API generation), \pkg{DBI} and \pkg{RPostgres} (database communication), and \pkg{bench} / \pkg{profvis} (performance and green code profiling).
@@ -287,36 +313,42 @@ The 22 habits fall into three types that need three different tools (Table~\ref{
 Nudging raises ethical questions, and the course brief explicitly asks for ethical AI and transparency. Home Energy Coach therefore uses only opt-in nudges: users choose their own commitments, every recommendation carries a ``why this'' explanation, notifications can be muted per habit, and prompts fade automatically once a habit is established. The WG challenge shows the shared score of the flat, not who did what, to avoid pressure between flatmates. No dark patterns -- artificial scarcity, guilt messages, hidden opt-outs -- are used.
 
 \subsection{Testing and Quality Assurance}
-Testing starts as soon as the first components exist in Sprint~3 and covers three levels: \textbf{unit tests} for the R functions (\pkg{testthat}) and the back-end services (\pkg{pytest}), \textbf{integration tests} for the FastAPI--\pkg{plumber} bridge and the SMARD ingestion -- with recorded API responses as fixtures, so that the tests do not depend on the live service -- and \textbf{end-to-end tests} of the main user flows from onboarding through recommendation, commitment and check-in. GitHub Actions runs the test suites on every pull request, and Docker keeps the test environment identical for all members. Sprint~5 adds a pilot: the team members use the app for two weeks, which yields the first real check-in data, usability feedback and the before/after measurements needed for the evaluation in Section~\ref{sec:ml}.
+Testing starts as soon as the first components exist in Sprint~3 and covers three levels: \textbf{unit tests} for the R functions (\pkg{testthat}), the back-end services (\pkg{pytest}) and the iOS view models (XCTest), \textbf{integration tests} for the FastAPI--\pkg{plumber} bridge and the SMARD ingestion -- with recorded API responses as fixtures, so that the tests do not depend on the live service -- and \textbf{end-to-end tests} of the main user flows from onboarding through recommendation, commitment and check-in, automated with XCUITest on the iOS app. GitHub Actions runs the test suites on every pull request, and Docker keeps the test environment identical for all members. Sprint~5 adds a pilot: the team members use the app for two weeks, which yields the first real check-in data, usability feedback and the before/after measurements needed for the evaluation in Section~\ref{sec:ml}.
 
 \subsection{Green Software Engineering: the App's Own Footprint}
 Evaluating and optimising the application's own greenness is a core grading theme of the course, not an extra. The team follows three steps that correspond to the aspects named in the course brief -- internal baselines, comparison against common practice, algorithmic efficiency and documented design choices -- and draws on the Software Carbon Intensity specification of the Green Software Foundation for the choice of metrics~\cite{gsf-sci}.
 \begin{enumerate}
-\item \textbf{Baseline (Sprint~4).} The first prototype is measured on the client (Lighthouse~\cite{lighthouse} for the web app, the Xcode Energy Gauge for iOS), on the server (CPU time, memory and network bytes per request from Docker statistics and API metrics) and in R (runtime and memory of every analytics job with \pkg{bench} and \pkg{profvis}). The baseline is documented and targets are set for the following sprints.
-\item \textbf{Optimise.} Analytics run as nightly batch jobs instead of per request; SMARD data, the daily green-window forecast and the recommendations are computed once and cached; payloads are kept lean and paginated; notifications are only sent for green windows that match the user's schedule; and algorithmic alternatives for the models in Section~\ref{sec:ml} are compared by runtime and memory as well as by accuracy.
+\item \textbf{Baseline (Sprint~4).} The first prototype is measured on the client (Xcode Energy Gauge and Instruments on an iPhone), on the server (CPU time, memory and network bytes per request from Docker statistics and API metrics) and in R (runtime and memory of every analytics job with \pkg{bench} and \pkg{profvis}). The baseline is documented and targets are set for the following sprints.
+\item \textbf{Optimise.} Analytics run as nightly batch jobs instead of per request; SMARD data, the daily green-window forecast and the recommendations are computed once and cached; payloads are kept lean and paginated; green-window alerts are scheduled locally on the device and only for windows that match the user's schedule; and algorithmic alternatives for the models in Section~\ref{sec:ml} are compared by runtime and memory as well as by accuracy.
 \item \textbf{Prove it.} Every sprint the measurements are repeated, the trend is recorded and shown on the in-app screen ``How green is this app?''. Each design decision and its measured effect is documented in the final report.
 \end{enumerate}
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.92\textwidth]{figures/architecture.png}
-\caption{High-level system architecture: a layered client--server system in which R runs isolated in its own analytics service. All components run as Docker containers.}
+\caption{High-level system architecture: a layered client--server system in which R runs isolated in its own analytics service. All server-side components run as Docker containers.}
 \label{fig:arch}
 \end{figure*}
 
 \section{System Architecture}
-The platform uses a \textbf{layered client--server architecture with a separate analytics service} (Fig.~\ref{fig:arch}): a front-end layer, a back-end layer built with FastAPI, an analytics layer in R and a data layer. All communication between components runs over REST endpoints with JSON payloads; the front-end never talks to R directly. This split is deliberate. The course requires R for all analysis tasks, and isolating R in its own service keeps the general-purpose back-end simple, lets the analytics run as scheduled batch jobs -- which is also the most energy-efficient option -- and allows the back-end and the analytics to be developed and tested independently by different team members. The style is easy to justify and document in the architecture deliverable of Sprint~2.
+The platform uses a \textbf{layered client--server architecture with a separate analytics service} (Fig.~\ref{fig:arch}): a front-end layer (the native iOS app), a back-end layer built with FastAPI, an analytics layer in R and a data layer. All communication between components runs over REST endpoints with JSON payloads; the front-end never talks to R directly. This split is deliberate. The course requires R for all analysis tasks, and isolating R in its own service keeps the general-purpose back-end simple, lets the analytics run as scheduled batch jobs -- which is also the most energy-efficient option -- and allows the back-end and the analytics to be developed and tested independently by different team members. The style is easy to justify and document in the architecture deliverable of Sprint~2.
 
 \subsection{Frontend Layer}
 \label{sec:frontend}
-The choice between a web application (TypeScript with React~\cite{react}, installable as a progressive web app) and a native iOS application (SwiftUI~\cite{swiftui}) is deliberately left open in this proposal and is taken in Sprint~1 against four criteria: the team's existing skills, support for push notifications (native on iOS; web push requires the installed web app), the available energy measurement tooling (Lighthouse versus the Xcode Energy Gauge), and device reach -- a web app runs on every flatmate's phone regardless of platform. The decision is documented in Jira and reflected in the architecture document of Sprint~2. In both cases the front-end contains the eleven screens of Section~\ref{sec:ui} and communicates only with the back-end API, whose contract is defined first so that back-end development does not depend on the client decision.
+The front-end is a native iOS application written in Swift with SwiftUI~\cite{swiftui}. The team compared a web application (React, installable as a progressive web app) with a native iOS app against four criteria -- the team's existing skills, notifications, energy measurement tooling and device reach -- and chose iOS for three reasons:
+\begin{itemize}
+\item \textbf{Prompts are the core mechanism.} The Green Hours planner only works if the alert arrives at the right moment. iOS supports scheduled local notifications natively: after the daily forecast has been fetched, the app schedules the user's green-window alerts on the device, so the server does not have to send a push message for every window.
+\item \textbf{Measurable footprint.} The Xcode Energy Gauge and Instruments break the energy impact of the app down into CPU, network, GPU and other overhead, which feeds directly into the green software evaluation.
+\item \textbf{Existing skills.} Part of the team develops iOS apps professionally, which lowers the risk of the largest user-interface workload in the project.
+\end{itemize}
+The main drawback is reach: flatmates with Android phones cannot use the app in this project. Because the app communicates only with the back-end's REST API, whose contract is defined first, a web or Android client can be added later without changes on the server side. The app contains the eleven screens of Section~\ref{sec:ui}, caches the current forecast and recommendations so that it also works offline, and is distributed to the pilot users through TestFlight~\cite{testflight}.
 
 \subsection{Backend Layer}
 Implemented with FastAPI~\cite{fastapi}. Key components:
 \begin{itemize}
 \item \textbf{API gateway} -- routing, JWT authentication, request validation.
 \item \textbf{Domain services} -- user profiles and flats, the habit catalogue, commitments and check-ins, WG groups, agreements and challenges, notifications.
-\item \textbf{Scheduler} -- triggers the nightly SMARD fetch, forecast and recommendation refresh in the R service and sends green-window alerts that match each user's schedule.
+\item \textbf{Scheduler} -- triggers the nightly SMARD fetch, forecast and recommendation refresh in the R service. Green-window alerts are scheduled on the device itself, so the server sends push notifications only for events such as WG challenge updates.
 \item \textbf{R bridge} -- an HTTP client that calls the \pkg{plumber} endpoints; results are stored in PostgreSQL so that the API serves cached results instead of recomputing them per request.
 \end{itemize}
 
@@ -330,19 +362,18 @@ The R analytics service exposes its functions through \pkg{plumber}~\cite{plumbe
 \item \textbf{Privacy} -- the system stores minimal personal data (e-mail address and display name), uses pseudonymous IDs in the analytics service and offers export and deletion of all personal data in the app.
 \end{itemize}
 
-\subsection{Containerization and Deployment}
-The server side is containerized with Docker~\cite{docker} and orchestrated with Docker Compose. Each major component runs as an isolated service:
+\subsection{Containerisation and Deployment}
+The server side is containerised with Docker~\cite{docker} and orchestrated with Docker Compose. Each major component runs as an isolated service:
 \begin{itemize}
-\item \texttt{frontend} -- Node-based build of the web application served by nginx (for a native iOS app this service is omitted and the app runs on the device).
 \item \texttt{backend} -- Python container running FastAPI with Uvicorn.
 \item \texttt{r\_service} -- R container exposing the \pkg{plumber} endpoints.
 \item \texttt{scheduler} -- triggers the nightly jobs and the notification run.
 \item \texttt{postgres} -- persistent relational storage.
 \end{itemize}
-A single \texttt{docker-compose.yml} at the repository root defines all services, networks and volumes, so that every member and the instructor can start the full stack with one command. GitHub Actions builds the images and runs the tests on every pull request.
+A single \texttt{docker-compose.yml} at the repository root defines all services, networks and volumes, so that every member and the instructor can start the full stack with one command. GitHub Actions builds the images and runs the tests on every pull request. The iOS app is not containerised: it is built and tested with Xcode on a macOS runner and distributed through TestFlight.
 
 \section{Technology Stack}
-Table~\ref{tab:stack} summarises the technologies per layer. The stack deliberately mirrors the architecture: one general-purpose language for the API, R for everything analytical, and a relational database as the single source of truth. All tools are free for students, run on macOS, Windows and Linux, and are available as Docker images, so that no member depends on a particular machine.
+Table~\ref{tab:stack} summarises the technologies per layer. The stack deliberately mirrors the architecture: one general-purpose language for the API, R for everything analytical, and a relational database as the single source of truth. All server-side tools are free, run on macOS, Windows and Linux and are available as Docker images, so that back-end and R work does not depend on a particular machine. iOS development requires a Mac with Xcode, so the iOS area is assigned to members who have one.
 
 \begin{table}[!t]
 \caption{Technology Stack}
@@ -353,7 +384,7 @@ Table~\ref{tab:stack} summarises the technologies per layer. The stack deliberat
 \toprule
 Layer & Technology & Purpose \\
 \midrule
-Front-end & React (TypeScript) \emph{or} SwiftUI & User interface; decision in Sprint~1 \\
+Front-end & Swift, SwiftUI (native iOS) & User interface, local notifications \\
 Back-end & Python (FastAPI) & REST API, scheduling, R bridge \\
 Analysis & R (\pkg{plumber}) & Forecast, recommender, clustering, evaluation \\
 Database & PostgreSQL & Persistent storage, caches \\
@@ -383,6 +414,31 @@ Eleven interfaces are planned beyond basic CRUD and authentication, three more t
 \end{enumerate}
 Wireframes are developed in Figma in Sprint~2 and refined into mockups in Sprint~4.
 
+\section{Success Criteria}
+\label{sec:success}
+The project is successful if the criteria in Table~\ref{tab:success} are met at the final delivery. The quantitative targets are initial values: they are reviewed once the first data and the green baseline are available in Sprint~4, and any change is documented in Jira. Because the pilot involves only the six team members, its results are indicative rather than statistically conclusive.
+
+\begin{table}[!t]
+\caption{Success Criteria}
+\label{tab:success}
+\centering
+\footnotesize
+\begin{tabular}{@{}L{1.7cm}L{6.55cm}@{}}
+\toprule
+Area & Criterion and target \\
+\midrule
+Functionality & At least 8 of the 11 planned screens work end-to-end against the live back-end; target: all 11 \\
+R analytics & Forecast, recommendation ranking, association rules, clustering and evaluation all run in R in the nightly batch, each covered by \pkg{testthat} tests \\
+Green Hours & In a back-test over at least four weeks of SMARD data, the forecast greenest 3-hour window overlaps the actual greenest window on at least 70\,\% of days \\
+Recommender & In 5-fold cross-validation on synthetic and survey data, the personalised ranking reaches a higher Precision@5 than a popularity baseline \\
+Habit formation & In the pilot, at least two thirds of the participants keep a committed habit with at least 70\,\% check-in adherence over two weeks; adherence after the prompts fade is reported with a paired test \\
+Usability & Mean System Usability Scale (SUS) score of at least 68, the commonly used average, in the pilot~\cite{sus} \\
+Green software & Median server CPU time and data transferred per user session at least 30\,\% lower in the final version than at the Sprint~4 baseline; no model computed per request; ``Low'' energy impact of the iOS app in a typical session \\
+Process & Every member has been Scrum Master once and Product Owner once; planning, stand-up, review and retrospective evidence in Jira for every sprint; all merged code meets the Definition of Done \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Risks and Mitigation}
 Table~\ref{tab:risks} lists the main risks identified during topic selection and how the team intends to handle them. The risk register is kept in Jira and reviewed in every Sprint Retrospective.
 
@@ -400,7 +456,7 @@ Users cannot measure their own kWh & Estimate from the profile and public statis
 SMARD API changes or downtime & Nightly caching; fallback to the stored dataset; ingestion isolated in one R module \\
 R skills uneven across the team & Two R owners; shared R scripts; pair-programming sessions \\
 Nudges feel manipulative or annoying & User-chosen commitments, mute option, ``why this'' on every tip, prompts fade once a habit is formed \\
-Front-end decision delays development & Decision in Sprint~1 against fixed criteria; API contract defined first so the back-end is independent of the client \\
+iOS-only app excludes flatmates with Android phones & Client-independent REST API defined first, so a web or Android client can be added later; Android support listed as future work \\
 Scope too large for one semester & Eight screens required, eleven planned; the additional screens are the first candidates to be descoped \\
 \bottomrule
 \end{tabular}
@@ -412,11 +468,14 @@ Scope too large for one semester & Eight screens required, eleven planned; the a
 \item Wireframes and mockups (Figma)
 \item System architecture document with justification of the architectural style
 \item UML models: use case, class, activity and sequence diagrams
-\item Working application with back-end, front-end and R analytics service, containerized with Docker
+\item Working native iOS app with back-end and R analytics service; the server side containerised with Docker
 \item Green software evaluation: baseline, optimisations and measured trend of the app's own footprint
 \item Jira project with Scrum evidence, artifacts and team contract, accessible to the instructor
 \item User documentation and final project report
 \end{enumerate}
+
+\section{Conclusion}
+Home Energy Coach addresses a group that most energy advice ignores: students and renters in shared flats, who cannot renovate their building but can change when and how they use energy. The proposal combines public data on the German electricity grid with a short user profile to recommend habits that fit each flat and each schedule, and uses established behaviour-change principles -- small commitments, prompts at the right moment and immediate feedback -- to turn them into routines. The architecture keeps all analysis in a separate R service, as the course requires, and runs it as nightly batch jobs, which also keeps the app's own footprint low. With a defined scope, measurable success criteria, a role rotation for all six members and a pilot on the team itself, the plan fits the five sprints and will give the team concrete evidence at the final delivery on both the effect of the recommender and the greenness of the software.
 
 \begin{thebibliography}{00}
 \bibitem{rcore} R Core Team, \emph{R: A Language and Environment for Statistical Computing}, R Foundation for Statistical Computing, Vienna, Austria, 2025. [Online]. Available: \url{https://www.R-project.org/}
@@ -433,10 +492,10 @@ Scope too large for one semester & Eight screens required, eleven planned; the a
 \bibitem{gsf-sci} Green Software Foundation, ``Software Carbon Intensity (SCI) Specification,'' ISO/IEC 21031:2024. [Online]. Available: \url{https://sci.greensoftware.foundation/}
 \bibitem{plumber} B. Schloerke and J. Allen, \emph{plumber: An API Generator for R}, R package. [Online]. Available: \url{https://www.rplumber.io/}
 \bibitem{fastapi} S. Ram\'irez, ``FastAPI: Modern, fast web framework for building APIs with Python.'' [Online]. Available: \url{https://fastapi.tiangolo.com/}
-\bibitem{react} Meta Platforms, Inc., ``React -- The library for web and native user interfaces.'' [Online]. Available: \url{https://react.dev/}
 \bibitem{swiftui} Apple Inc., ``SwiftUI.'' [Online]. Available: \url{https://developer.apple.com/xcode/swiftui/}
 \bibitem{docker} Docker, Inc., ``Docker: Accelerated container application development.'' [Online]. Available: \url{https://www.docker.com/}
-\bibitem{lighthouse} Google LLC, ``Lighthouse.'' [Online]. Available: \url{https://developer.chrome.com/docs/lighthouse/}
+\bibitem{testflight} Apple Inc., ``TestFlight.'' [Online]. Available: \url{https://developer.apple.com/testflight/}
+\bibitem{sus} J. Brooke, ``SUS: A `quick and dirty' usability scale,'' in \emph{Usability Evaluation in Industry}, P. W. Jordan, B. Thomas, B. A. Weerdmeester, and I. L. McClelland, Eds. London, U.K.: Taylor \& Francis, 1996, pp. 189--194.
 \end{thebibliography}
 
 \end{document}
