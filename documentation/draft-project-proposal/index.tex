@@ -1,57 +1,80 @@
-\documentclass[10pt,twocolumn,a4paper]{article}
+\documentclass[10pt,twocolumn,letterpaper]{article}
+% Layout reproduces the IEEEtran conference template (US Letter) used by the original proposal
+\usepackage[letterpaper,textwidth=7.15in,textheight=9.25in,top=0.75in,columnsep=0.17in,hcentering,nohead,nofoot]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{mathptmx}
-\usepackage{textcomp}
 \usepackage{courier}
-\usepackage[a4paper,top=19mm,bottom=25mm,left=15mm,right=15mm,columnsep=6mm]{geometry}
-\usepackage{booktabs,tabularx,array,multirow}
-\usepackage{enumitem}
+\usepackage{textcomp}
+\usepackage{booktabs,tabularx,array}
 \usepackage{titlesec}
+\usepackage{indentfirst}
 \usepackage[font=footnotesize,labelsep=period]{caption}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,shapes.geometric}
+\usepackage{stfloats}
 \usepackage[hidelinks]{hyperref}
+\urlstyle{same}
 \usepackage{cite}
-\usepackage{float}
  
-\renewcommand{\dbltopfraction}{0.95}
+\pagestyle{empty}
+\raggedbottom
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\renewcommand{\dbltopfraction}{0.9}
 \setcounter{dbltopnumber}{3}
 \renewcommand{\textfraction}{0.05}
+ 
 \newcommand{\cotwo}{CO\textsubscript{2}}
 \newcommand{\code}[1]{\texttt{#1}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
  
-% IEEE-like headings
+% IEEE section style
 \renewcommand\thesection{\Roman{section}}
 \renewcommand\thesubsection{\Alph{subsection}}
 \titleformat{\section}{\centering\normalsize\scshape}{\thesection.}{0.5em}{}
 \titleformat{\subsection}{\normalsize\itshape}{\thesubsection.}{0.5em}{}
-\titlespacing*{\section}{0pt}{7pt}{3pt}
-\titlespacing*{\subsection}{0pt}{6pt}{3pt}
+\titlespacing*{\section}{0pt}{1.6ex plus 0.5ex}{0.8ex}
+\titlespacing*{\subsection}{0pt}{1.2ex plus 0.3ex}{0.5ex}
  
-% IEEE-like table captions
+% IEEE captions: "TABLE I" over a small-caps title; "Fig. 1." for figures
 \renewcommand\thetable{\Roman{table}}
-\captionsetup[table]{labelsep=newline,justification=centering,font={footnotesize,sc}}
-\setlist{nosep,leftmargin=*}
-\setlength{\parskip}{0pt}
-\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\DeclareCaptionLabelFormat{ieeetab}{\MakeUppercase{#1}~#2}
+\captionsetup[table]{labelformat=ieeetab,labelsep=newline,justification=centering,font={footnotesize},textfont=sc,skip=4pt}
+\captionsetup[figure]{name=Fig.,labelsep=period,justification=justified,singlelinecheck=false,font=footnotesize}
  
-\title{\vspace{-6mm}\LARGE Project Proposal: Home Energy Coach\\[2pt]
-\large A Personalized Green Habit Recommender for Students and Renters in Shared Flats\\[2pt]
-\normalsize Revised version, 16 November 2026}
-\author{\normalsize Muhammad Saad Zafar (1541717), Asif Newaz (1446896), Mazba Uddin (1445693),\\
-\normalsize Madhusudan Ambulkar (1572416), Nazmul Alam (1471706), Md.\ Rabiul Hasan Tanvir (1444348)\\[2pt]
-\small Frankfurt University of Applied Sciences \;·\; High Integrity Systems, Winter Semester 2026/27\\
-\small Supervisor: Prof.\ Dr.\ Christina Andersson}
-\date{}
+% IEEE reference list heading
+\makeatletter
+\renewenvironment{thebibliography}[1]
+ {\section*{\centering\normalsize\scshape References}%
+  \footnotesize
+  \list{\@biblabel{\@arabic\c@enumiv}}%
+   {\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth\advance\leftmargin\labelsep
+    \itemsep 0pt\parsep 0pt\usecounter{enumiv}\let\p@enumiv\@empty\renewcommand\theenumiv{\@arabic\c@enumiv}}%
+  \sloppy\clubpenalty4000\widowpenalty4000\sfcode`\.\@m}
+ {\endlist}
+\makeatother
  
 \begin{document}
-\maketitle
-\vspace{-8mm}
+\twocolumn[{%
+\begin{center}
+{\fontsize{24}{28}\selectfont Project Proposal: Home Energy Coach\par}
+\vspace{11pt}
+{\fontsize{12}{14}\selectfont A Personalized Green Habit Recommender for Students and Renters in Shared Flats\par}
+\vspace{14pt}
+{\fontsize{11}{13}\selectfont
+Muhammad Saad Zafar\textsuperscript{1541717}, Asif Newaz\textsuperscript{1446896}, Mazba Uddin\textsuperscript{1445693},\\
+Madhusudan Ambulkar\textsuperscript{1572416}, Nazmul Alam\textsuperscript{1471706}, Md.\ Rabiul Hasan Tanvir\textsuperscript{1444348}\par}
+\vspace{1pt}
+{\normalsize
+Frankfurt University of Applied Sciences\\
+High Integrity Systems, Winter Semester 2026/27\\
+Supervisor: Prof.\ Dr.\ Christina Andersson\\
+Revised version, 16 November 2026\par}
+\end{center}
+\vspace{14pt}
+}]
  
-\begin{abstract}
-\noindent\bfseries\small
-This proposal describes the plan for Home Energy Coach, the team's Personalized Green Habit Recommender for the High Integrity Systems Project at Frankfurt University of Applied Sciences (WS 2026/27). The app is aimed at students and renters in shared flats (WGs). They cannot change their building's insulation or heating system, but they can change their daily habits. Users fill in a short energy profile, get a ranked list of habits that suit their flat and schedule, commit to one small goal at a time and are reminded when it is time to act. The main feature is the Green Hours planner. It uses live generation data for the German electricity market from the Bundesnetzagentur's SMARD platform to tell each user the lowest-\cotwo{} hours for laundry, the dishwasher and charging, limited to the hours they are actually at home. The native iOS app (SwiftUI) talks to a FastAPI back-end, which handles the application logic and passes all data analysis to an R analytics service exposed through the plumber package. That analysis covers the hourly \cotwo{} forecast, recommendation ranking, association-rule mining, user clustering and the evaluation of nudges. User data is stored in PostgreSQL, and the server side runs in Docker containers. Following the course's green software requirement, the team measures the app's own energy and resource use from the first prototype onwards, reduces it in every sprint and shows the results in the app. The project runs as five Scrum sprints with rotating Scrum Master and Product Owner roles, and all progress is tracked in Jira.
-\end{abstract}
+{\fontsize{9}{10.5}\selectfont\bfseries\noindent\textit{Abstract}---This proposal describes the plan for \emph{Home Energy Coach}, the team's Personalized Green Habit Recommender for the High Integrity Systems Project at Frankfurt University of Applied Sciences (WS 2026/27). The app is aimed at students and renters in shared flats (WGs). They cannot change their building's insulation or heating system, but they can change their daily habits. Users fill in a short energy profile, get a ranked list of habits that suit their flat and schedule, commit to one small goal at a time and are reminded when it is time to act. The main feature is the \emph{Green Hours planner}. It uses live generation data for the German electricity market from the Bundesnetzagentur's SMARD platform to tell each user the lowest-\cotwo{} hours for laundry, the dishwasher and charging, limited to the hours they are actually at home. The native iOS app (SwiftUI) talks to a FastAPI back-end, which handles the application logic and passes all data analysis to an R analytics service exposed through the \texttt{plumber} package. That analysis covers the hourly \cotwo{} forecast, recommendation ranking, association-rule mining, user clustering and the evaluation of nudges. User data is stored in PostgreSQL, and the server side runs in Docker containers. Following the course's green software requirement, the team measures the app's own energy and resource use from the first prototype onwards, reduces it in every sprint and shows the results in the app. The project runs as five Scrum sprints with rotating Scrum Master and Product Owner roles, and all progress is tracked in Jira.\par}
  
 \section{Introduction}
 Students and renters in shared flats (WGs) cannot insulate their building or replace its heating, but they can change their daily habits, including \emph{when} their appliances run. The \cotwo{} intensity of German electricity changes strongly within a day as wind and solar output rises and falls, and the Bundesnetzagentur publishes the underlying data free of charge on SMARD \cite{smard}. Home Energy Coach turns this data and a short user profile into small, personal habits, and uses timely reminders, one-tap check-ins and immediate feedback to make them stick \cite{fogg,lally}.
@@ -101,6 +124,34 @@ P6 & Evaluation & Precision@5 (O1), back-test of P2 (O2), paired test of check-i
 \end{tabularx}
 \end{table*}
  
+\section{Architecture}
+The native iOS app (SwiftUI) keeps the profile, check-ins and the latest forecast in a local database (SwiftData), so it works offline and schedules the Green Hours reminders on the phone. It talks over REST to a FastAPI back-end, which stores the data shared between users (accounts, WG groups, model results) in PostgreSQL and calls the R service (Fig.~\ref{fig:arch}). To keep the app's own footprint low, R runs as nightly or weekly batches instead of per request, and the back-end serves the stored results. The footprint is measured from Sprint~4 with the Xcode Energy Gauge, Docker statistics and the R packages \code{bench} and \code{profvis}, and measured again in every sprint.
+ 
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[font=\footnotesize,
+  box/.style={draw,align=center,minimum width=4.1cm,minimum height=1.45cm,inner sep=3pt},
+  db/.style={draw,cylinder,shape border rotate=90,aspect=0.2,align=center,minimum width=3.3cm,minimum height=1.75cm},
+  arr/.style={{Latex[length=2mm]}-{Latex[length=2mm]}},
+  one/.style={-{Latex[length=2mm]}},
+  lab/.style={font=\scriptsize,fill=white,inner sep=1.5pt}]
+\node[box] (app) {\textbf{\small iOS app}\\SwiftUI\\{\scriptsize local SwiftData store}};
+\node[box,right=1.9cm of app] (api) {\textbf{\small Back-end}\\FastAPI\\{\scriptsize scheduler}};
+\node[db,right=1.9cm of api] (pg) {\textbf{\small PostgreSQL}\\{\scriptsize shared data, results}};
+\node[box,below=1.2cm of api] (r) {\textbf{\small R service}\\\texttt{plumber}\\{\scriptsize tasks P1--P6}};
+\node[box,below=1.2cm of app] (smard) {\textbf{\small SMARD}\\{\scriptsize grid data}};
+\draw[arr] (app) -- node[lab,above]{REST / JSON} (api);
+\draw[arr] (api) -- node[lab,above]{SQL} (pg);
+\draw[arr] (api) -- node[lab,right]{HTTP} (r);
+\draw[one] (smard) -- node[lab,above]{nightly download} (r);
+\draw[arr] (r) -| node[lab,above,pos=0.3]{read data, write results} (pg);
+\end{tikzpicture}
+\caption{Architecture. All server components run in Docker containers; GitHub Actions runs the tests on every pull request.}\label{fig:arch}
+\end{figure*}
+ 
+\section{Project Plan}\label{sec:plan}
+The project runs as five Scrum sprints \cite{scrum}, tracked in Jira (project \code{HEC}). Sprint~5 is split into 5a and 5b so that each of the six members is Scrum Master once and Product Owner once (Table~\ref{tab:plan}).
+ 
 \begin{table*}[t]
 \caption{Sprints and Scrum Roles}\label{tab:plan}
 \footnotesize
@@ -118,49 +169,5 @@ P6 & Evaluation & Precision@5 (O1), back-test of P2 (O2), paired test of check-i
 \end{tabularx}
 \end{table*}
  
- 
-\section{Architecture}
-The native iOS app (SwiftUI) keeps the profile, check-ins and the latest forecast in a local database (SwiftData), so it works offline and schedules the Green Hours reminders on the phone. It talks over REST to a FastAPI back-end, which stores the data shared between users (accounts, WG groups, model results) in PostgreSQL and calls the R service (Fig.~\ref{fig:arch}). To keep the app's own footprint low, R runs as nightly or weekly batches instead of per request, and the back-end serves the stored results. The footprint is measured from Sprint~4 with the Xcode Energy Gauge, Docker statistics and the R packages \code{bench} and \code{profvis}, and measured again in every sprint.
- 
-\begin{figure}[h]
-\centering
-\scriptsize
-\begin{tikzpicture}[
-  box/.style={draw,rounded corners=2pt,align=center,minimum width=3.3cm,minimum height=0.85cm,inner sep=2pt},
-  arr/.style={{Latex[length=1.6mm]}-{Latex[length=1.6mm]}},
-  one/.style={-{Latex[length=1.6mm]}},
-  lab/.style={font=\tiny,fill=white,inner sep=1pt}]
-\node[box] (app) {\textbf{iOS app}\\SwiftUI, local SwiftData store};
-\node[box,below=0.7cm of app] (api) {\textbf{Back-end}\\FastAPI, scheduler};
-\node[box,right=1.2cm of api] (pg) {\textbf{PostgreSQL}\\shared data, results};
-\node[box,below=0.7cm of pg] (r) {\textbf{R service}\\\code{plumber}, tasks P1--P6};
-\node[box,below=0.7cm of api] (smard) {\textbf{SMARD}\\grid data};
-\draw[arr] (app) -- node[lab]{REST / JSON} (api);
-\draw[arr] (api) -- node[lab]{SQL} (pg);
-\draw[arr] (api) -- node[lab]{HTTP} (r);
-\draw[one] (smard) -- node[lab,below=1pt]{nightly download} (r);
-\draw[arr] (r) -- node[lab,align=center]{read data,\\write results} (pg);
-\end{tikzpicture}
-\caption{Architecture. All server components run in Docker containers; GitHub Actions runs the tests on every pull request.}\label{fig:arch}
-\end{figure}
- 
-\section{Project Plan}\label{sec:plan}
-The project runs as five Scrum sprints \cite{scrum}, tracked in Jira (project \code{HEC}). Sprint~5 is split into 5a and 5b so that each of the six members is Scrum Master once and Product Owner once (Table~\ref{tab:plan}).
- 
- 
- 
-\footnotesize\raggedright
-\begin{thebibliography}{99}\setlength{\itemsep}{0pt}
-\bibitem{smard} Bundesnetzagentur, ``SMARD -- Strommarktdaten,'' data download and API. [Online]. Available: \url{https://www.smard.de/}
-\bibitem{fogg} B. J. Fogg, ``A behavior model for persuasive design,'' in \emph{Proc. Persuasive '09}, art. 40, 2009.
-\bibitem{lally} P. Lally, C. H. M. van Jaarsveld, H. W. W. Potts, and J. Wardle, ``How are habits formed: Modelling habit formation in the real world,'' \emph{Eur. J. Soc. Psychol.}, vol. 40, no. 6, pp. 998--1009, 2010.
-\bibitem{sus} J. Brooke, ``SUS: A `quick and dirty' usability scale,'' in \emph{Usability Evaluation in Industry}, London: Taylor \& Francis, 1996, pp. 189--194.
-\bibitem{rcore} R Core Team, \emph{R: A Language and Environment for Statistical Computing}, R Foundation, Vienna, 2025.
-\bibitem{plumber} B. Schloerke and J. Allen, \emph{plumber: An API Generator for R}, R package. [Online]. Available: \url{https://www.rplumber.io/}
-\bibitem{stromspiegel} co2online gGmbH, ``Stromspiegel 2025,'' Berlin, May 2025. [Online]. Available: \url{https://www.stromspiegel.de/}
-\bibitem{uba_hh} Umweltbundesamt, ``Energieverbrauch privater Haushalte,'' 2026.
-\bibitem{refit} D. Murray, L. Stankovic, and V. Stankovic, ``An electrical load measurements dataset of United Kingdom households from a two-year longitudinal study,'' \emph{Scientific Data}, vol. 4, art. 160122, 2017.
-\bibitem{uba_ef} Umweltbundesamt, ``Entwicklung der spezifischen Treibhausgas-Emissionen des deutschen Strommix in den Jahren 1990--2025,'' Dessau-Ro\ss{}lau, Mar. 2026.
-\bibitem{scrum} K. Schwaber and J. Sutherland, ``The Scrum Guide,'' 2020. [Online]. Available: \url{https://scrumguides.org/}
-\end{thebibliography}
 \end{document}
+ 
