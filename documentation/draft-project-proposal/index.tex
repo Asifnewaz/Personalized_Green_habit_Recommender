@@ -1,9 +1,9 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[10pt,twocolumn,a4paper]{article}
 \usepackage[T1]{fontenc}
 \usepackage{mathptmx}
 \usepackage{textcomp}
 \usepackage{courier}
-\usepackage[a4paper,top=14mm,bottom=20mm,left=19mm,right=19mm]{geometry}
+\usepackage[a4paper,top=19mm,bottom=25mm,left=15mm,right=15mm,columnsep=6mm]{geometry}
 \usepackage{booktabs,tabularx,array,multirow}
 \usepackage{enumitem}
 \usepackage{titlesec}
@@ -13,10 +13,13 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{cite}
 \usepackage{float}
-
+ 
+\renewcommand{\dbltopfraction}{0.95}
+\setcounter{dbltopnumber}{3}
+\renewcommand{\textfraction}{0.05}
 \newcommand{\cotwo}{CO\textsubscript{2}}
 \newcommand{\code}[1]{\texttt{#1}}
-
+ 
 % IEEE-like headings
 \renewcommand\thesection{\Roman{section}}
 \renewcommand\thesubsection{\Alph{subsection}}
@@ -24,14 +27,14 @@
 \titleformat{\subsection}{\normalsize\itshape}{\thesubsection.}{0.5em}{}
 \titlespacing*{\section}{0pt}{7pt}{3pt}
 \titlespacing*{\subsection}{0pt}{6pt}{3pt}
-
+ 
 % IEEE-like table captions
 \renewcommand\thetable{\Roman{table}}
 \captionsetup[table]{labelsep=newline,justification=centering,font={footnotesize,sc}}
 \setlist{nosep,leftmargin=*}
 \setlength{\parskip}{0pt}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
-
+ 
 \title{\vspace{-6mm}\LARGE Project Proposal: Home Energy Coach\\[2pt]
 \large A Personalized Green Habit Recommender for Students and Renters in Shared Flats\\[2pt]
 \normalsize Revised version, 16 November 2026}
@@ -40,23 +43,23 @@
 \small Frankfurt University of Applied Sciences \;·\; High Integrity Systems, Winter Semester 2026/27\\
 \small Supervisor: Prof.\ Dr.\ Christina Andersson}
 \date{}
-
+ 
 \begin{document}
 \maketitle
 \vspace{-8mm}
-
+ 
 \begin{abstract}
-\noindent\small
+\noindent\bfseries\small
 This proposal describes the plan for Home Energy Coach, the team's Personalized Green Habit Recommender for the High Integrity Systems Project at Frankfurt University of Applied Sciences (WS 2026/27). The app is aimed at students and renters in shared flats (WGs). They cannot change their building's insulation or heating system, but they can change their daily habits. Users fill in a short energy profile, get a ranked list of habits that suit their flat and schedule, commit to one small goal at a time and are reminded when it is time to act. The main feature is the Green Hours planner. It uses live generation data for the German electricity market from the Bundesnetzagentur's SMARD platform to tell each user the lowest-\cotwo{} hours for laundry, the dishwasher and charging, limited to the hours they are actually at home. The native iOS app (SwiftUI) talks to a FastAPI back-end, which handles the application logic and passes all data analysis to an R analytics service exposed through the plumber package. That analysis covers the hourly \cotwo{} forecast, recommendation ranking, association-rule mining, user clustering and the evaluation of nudges. User data is stored in PostgreSQL, and the server side runs in Docker containers. Following the course's green software requirement, the team measures the app's own energy and resource use from the first prototype onwards, reduces it in every sprint and shows the results in the app. The project runs as five Scrum sprints with rotating Scrum Master and Product Owner roles, and all progress is tracked in Jira.
 \end{abstract}
-
+ 
 \section{Introduction}
 Students and renters in shared flats (WGs) cannot insulate their building or replace its heating, but they can change their daily habits, including \emph{when} their appliances run. The \cotwo{} intensity of German electricity changes strongly within a day as wind and solar output rises and falls, and the Bundesnetzagentur publishes the underlying data free of charge on SMARD \cite{smard}. Home Energy Coach turns this data and a short user profile into small, personal habits, and uses timely reminders, one-tap check-ins and immediate feedback to make them stick \cite{fogg,lally}.
-
+ 
 \section{Objectives: What the App Will Do}
 Table~\ref{tab:obj} lists what the finished app will be able to do. Each objective has a target that is measured at the final delivery on 25 January 2027.
-
-\begin{table}[H]
+ 
+\begin{table*}[t]
 \caption{Objectives of Home Energy Coach}\label{tab:obj}
 \footnotesize
 \begin{tabularx}{\textwidth}{@{}p{0.45cm}>{\raggedright\arraybackslash}p{2.1cm}L>{\raggedright\arraybackslash}p{5.2cm}@{}}
@@ -72,16 +75,16 @@ O6 & Privacy and usability & Users see what data is stored, export or delete it,
 O7 & Green app & The app measures its own energy and data use and shows it on the screen ``How green is this app?''. & Median server CPU time and data per user session at least 30\,\% below the Sprint~4 baseline; ``Low'' energy impact in Xcode \\
 \bottomrule
 \end{tabularx}
-\end{table}
-
+\end{table*}
+ 
 The app has eleven screens beyond login and basic data entry: onboarding quiz, dashboard, recommendation feed, commitment and check-in, Green Hours planner, habit library (22 habits), one-time checklist, WG challenge, trends, privacy centre and ``How green is this app?''. The course requirements are covered as follows: all analysis runs in R (Section~\ref{sec:r}), eleven interfaces are planned where eight are required, the app's own footprint is objective O7, and Scrum with rotating roles is tracked in Jira (Section~\ref{sec:plan}).
-
+ 
 \textit{Out of scope:} Android and web clients, control of smart plugs or thermostats, automatic smart-meter integration, electricity grids outside Germany, and a public App Store release (the pilot uses TestFlight).
-
+ 
 \section{What R and plumber Are Used For}\label{sec:r}
 All data analysis runs in R \cite{rcore}. The \code{plumber} package \cite{plumber} is only the interface: it makes the R functions callable over HTTP by the FastAPI back-end, and the iOS app never calls R directly. R performs the six tasks in Table~\ref{tab:r}. Three of them are machine-learning or data-mining models (P3, P4, P5); the Green Hours forecast (P2) is a calculation and needs no trained model. Until real users exist, the models are trained on synthetic users built from Stromspiegel consumption data \cite{stromspiegel}, UBA end-use shares \cite{uba_hh} and REFIT appliance run times \cite{refit}, together with a student survey in Sprint~2; pilot data replace them in Sprint~5.
-
-\begin{table}[H]
+ 
+\begin{table*}[t]
 \caption{Tasks of the R Service}\label{tab:r}
 \footnotesize
 \begin{tabularx}{\textwidth}{@{}p{0.5cm}>{\raggedright\arraybackslash}p{2.5cm}L>{\raggedright\arraybackslash}p{2.0cm}@{}}
@@ -96,37 +99,9 @@ P5 & User personas & k-means clustering of at-home hours and check-in behaviour 
 P6 & Evaluation & Precision@5 (O1), back-test of P2 (O2), paired test of check-in rates before and after reminders stop (O3) (\code{recommenderlab}, \code{stats}) & Every sprint \\
 \bottomrule
 \end{tabularx}
-\end{table}
-
-\section{Architecture}
-The native iOS app (SwiftUI) keeps the profile, check-ins and the latest forecast in a local database (SwiftData), so it works offline and schedules the Green Hours reminders on the phone. It talks over REST to a FastAPI back-end, which stores the data shared between users (accounts, WG groups, model results) in PostgreSQL and calls the R service (Fig.~\ref{fig:arch}). To keep the app's own footprint low, R runs as nightly or weekly batches instead of per request, and the back-end serves the stored results. The footprint is measured from Sprint~4 with the Xcode Energy Gauge, Docker statistics and the R packages \code{bench} and \code{profvis}, and measured again in every sprint.
-
-\begin{figure}[H]
-\centering
-\scriptsize
-\begin{tikzpicture}[
-  box/.style={draw,rounded corners=2pt,align=center,minimum width=3.3cm,minimum height=0.85cm,inner sep=2pt},
-  arr/.style={{Latex[length=1.6mm]}-{Latex[length=1.6mm]}},
-  one/.style={-{Latex[length=1.6mm]}},
-  lab/.style={font=\tiny,fill=white,inner sep=1pt}]
-\node[box] (app) {\textbf{iOS app}\\SwiftUI, local SwiftData store};
-\node[box,right=1.6cm of app] (api) {\textbf{Back-end}\\FastAPI, scheduler};
-\node[box,right=1.6cm of api] (pg) {\textbf{PostgreSQL}\\shared data, results};
-\node[box,below=0.6cm of api] (r) {\textbf{R service}\\\code{plumber}, tasks P1--P6};
-\node[box,below=0.6cm of app] (smard) {\textbf{SMARD}\\grid data};
-\draw[arr] (app) -- node[lab]{REST / JSON} (api);
-\draw[arr] (api) -- node[lab]{SQL} (pg);
-\draw[arr] (api) -- node[lab]{HTTP} (r);
-\draw[one] (smard) -- node[lab]{nightly download} (r);
-\draw[arr] (r) -| node[lab,pos=0.3]{read data, write results} (pg);
-\end{tikzpicture}
-\caption{Architecture. All server components run in Docker containers; GitHub Actions runs the tests on every pull request.}\label{fig:arch}
-\end{figure}
-
-\section{Project Plan}\label{sec:plan}
-The project runs as five Scrum sprints \cite{scrum}, tracked in Jira (project \code{HEC}). Sprint~5 is split into 5a and 5b so that each of the six members is Scrum Master once and Product Owner once (Table~\ref{tab:plan}).
-
-\begin{table}[H]
+\end{table*}
+ 
+\begin{table*}[t]
 \caption{Sprints and Scrum Roles}\label{tab:plan}
 \footnotesize
 \begin{tabularx}{\textwidth}{@{}p{0.4cm}p{2.0cm}L p{2.4cm}p{2.4cm}@{}}
@@ -141,8 +116,39 @@ The project runs as five Scrum sprints \cite{scrum}, tracked in Jira (project \c
 5b & 15 -- 25 Jan & Evaluation of O1--O7, final report and delivery & A.\ Newaz & M.\ R.\ H.\ Tanvir \\
 \bottomrule
 \end{tabularx}
-\end{table}
-
+\end{table*}
+ 
+ 
+\section{Architecture}
+The native iOS app (SwiftUI) keeps the profile, check-ins and the latest forecast in a local database (SwiftData), so it works offline and schedules the Green Hours reminders on the phone. It talks over REST to a FastAPI back-end, which stores the data shared between users (accounts, WG groups, model results) in PostgreSQL and calls the R service (Fig.~\ref{fig:arch}). To keep the app's own footprint low, R runs as nightly or weekly batches instead of per request, and the back-end serves the stored results. The footprint is measured from Sprint~4 with the Xcode Energy Gauge, Docker statistics and the R packages \code{bench} and \code{profvis}, and measured again in every sprint.
+ 
+\begin{figure}[h]
+\centering
+\scriptsize
+\begin{tikzpicture}[
+  box/.style={draw,rounded corners=2pt,align=center,minimum width=3.3cm,minimum height=0.85cm,inner sep=2pt},
+  arr/.style={{Latex[length=1.6mm]}-{Latex[length=1.6mm]}},
+  one/.style={-{Latex[length=1.6mm]}},
+  lab/.style={font=\tiny,fill=white,inner sep=1pt}]
+\node[box] (app) {\textbf{iOS app}\\SwiftUI, local SwiftData store};
+\node[box,below=0.7cm of app] (api) {\textbf{Back-end}\\FastAPI, scheduler};
+\node[box,right=1.2cm of api] (pg) {\textbf{PostgreSQL}\\shared data, results};
+\node[box,below=0.7cm of pg] (r) {\textbf{R service}\\\code{plumber}, tasks P1--P6};
+\node[box,below=0.7cm of api] (smard) {\textbf{SMARD}\\grid data};
+\draw[arr] (app) -- node[lab]{REST / JSON} (api);
+\draw[arr] (api) -- node[lab]{SQL} (pg);
+\draw[arr] (api) -- node[lab]{HTTP} (r);
+\draw[one] (smard) -- node[lab,below=1pt]{nightly download} (r);
+\draw[arr] (r) -- node[lab,align=center]{read data,\\write results} (pg);
+\end{tikzpicture}
+\caption{Architecture. All server components run in Docker containers; GitHub Actions runs the tests on every pull request.}\label{fig:arch}
+\end{figure}
+ 
+\section{Project Plan}\label{sec:plan}
+The project runs as five Scrum sprints \cite{scrum}, tracked in Jira (project \code{HEC}). Sprint~5 is split into 5a and 5b so that each of the six members is Scrum Master once and Product Owner once (Table~\ref{tab:plan}).
+ 
+ 
+ 
 \footnotesize\raggedright
 \begin{thebibliography}{99}\setlength{\itemsep}{0pt}
 \bibitem{smard} Bundesnetzagentur, ``SMARD -- Strommarktdaten,'' data download and API. [Online]. Available: \url{https://www.smard.de/}
