@@ -1,0 +1,8 @@
+# LaTeX build output
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+missfont.log
