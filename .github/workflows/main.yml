@@ -4,7 +4,13 @@ on:
   push:
     paths:
       - 'documentation/project-proposal/**.tex'
+      - 'documentation/draft-project-proposal/**.tex'
+      - '.github/workflows/main.yml'
   workflow_dispatch: # Allows manual trigger from the Actions tab
+
+concurrency:
+  group: latex-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -15,17 +21,25 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Compile LaTeX Document
+      - name: Compile LaTeX Proposal
         uses: dante-ev/latex-action@v0.2.0
         with:
           root_file: index.tex
           working_directory: documentation/project-proposal
           args: -pdf -file-line-error -interaction=nonstopmode
 
-      - name: Commit and push updated PDF
+      - name: Compile LaTeX Draft Proposal
+        uses: dante-ev/latex-action@v0.2.0
+        with:
+          root_file: index.tex
+          working_directory: documentation/draft-project-proposal
+          args: -pdf -file-line-error -interaction=nonstopmode
+
+      - name: Commit and push updated PDFs
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add documentation/project-proposal/index.pdf
-          git commit -m "Auto-compile index.pdf [skip ci]" || echo "No changes to commit"
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add documentation/project-proposal/index.pdf documentation/draft-project-proposal/index.pdf
+          git commit -m "Auto-compile PDFs [skip ci]" || echo "No changes to commit"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
