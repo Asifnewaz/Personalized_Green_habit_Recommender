@@ -1,62 +1,160 @@
-%% =====================================================================
-%%  Home Energy Coach -- DRAFT Project Proposal
-%%  High Integrity Systems, Winter Semester 2026/27
-%%  Frankfurt University of Applied Sciences
-%%  Work-in-progress draft; the reviewed version lives in ../project-proposal
-%%  \ph{...} prints a RED placeholder for anything still to be filled in.
-%% =====================================================================
-\documentclass[conference]{IEEEtran}
-\usepackage[utf8]{inputenc}
+\documentclass[10pt,a4paper]{article}
 \usepackage[T1]{fontenc}
+\usepackage{mathptmx}
 \usepackage{textcomp}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{array}
-\usepackage{xcolor}
-\usepackage{url}
+\usepackage{courier}
+\usepackage[a4paper,top=14mm,bottom=20mm,left=19mm,right=19mm]{geometry}
+\usepackage{booktabs,tabularx,array,multirow}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[font=footnotesize,labelsep=period]{caption}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric}
 \usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{float}
 
-\newcommand{\ph}[1]{\textcolor{red}{\textbf{[#1]}}}
-\newcommand{\COtwo}{CO$_2$}
-\newcommand{\pkg}[1]{\texttt{#1}}
+\newcommand{\cotwo}{CO\textsubscript{2}}
+\newcommand{\code}[1]{\texttt{#1}}
+
+% IEEE-like headings
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Alph{subsection}}
+\titleformat{\section}{\centering\normalsize\scshape}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\itshape}{\thesubsection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+\titlespacing*{\subsection}{0pt}{6pt}{3pt}
+
+% IEEE-like table captions
+\renewcommand\thetable{\Roman{table}}
+\captionsetup[table]{labelsep=newline,justification=centering,font={footnotesize,sc}}
+\setlist{nosep,leftmargin=*}
+\setlength{\parskip}{0pt}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+\title{\vspace{-6mm}\LARGE Project Proposal: Home Energy Coach\\[2pt]
+\large A Personalized Green Habit Recommender for Students and Renters in Shared Flats\\[2pt]
+\normalsize Revised version, 16 November 2026}
+\author{\normalsize Muhammad Saad Zafar (1541717), Asif Newaz (1446896), Mazba Uddin (1445693),\\
+\normalsize Madhusudan Ambulkar (1572416), Nazmul Alam (1471706), Md.\ Rabiul Hasan Tanvir (1444348)\\[2pt]
+\small Frankfurt University of Applied Sciences \;·\; High Integrity Systems, Winter Semester 2026/27\\
+\small Supervisor: Prof.\ Dr.\ Christina Andersson}
+\date{}
 
 \begin{document}
-
-\title{Project Proposal (Draft): Home Energy Coach\
-{\large A Personalized Green Habit Recommender}}
-
-\author{
-  \IEEEauthorblockN{Muhammad Saad Zafar, Asif Newaz, Mazba Uddin,\
-    Madhusudan Ambulkar, Nazmul Alam, Md. Rabiul Hasan Tanvir}
-\IEEEauthorblockA{Frankfurt University of Applied Sciences\
-High Integrity Systems, Winter Semester 2026/27}
-}
-
 \maketitle
+\vspace{-8mm}
 
 \begin{abstract}
-\ph{Draft abstract}
+\noindent\small
+This proposal describes the plan for Home Energy Coach, the team's Personalized Green Habit Recommender for the High Integrity Systems Project at Frankfurt University of Applied Sciences (WS 2026/27). The app is aimed at students and renters in shared flats (WGs). They cannot change their building's insulation or heating system, but they can change their daily habits. Users fill in a short energy profile, get a ranked list of habits that suit their flat and schedule, commit to one small goal at a time and are reminded when it is time to act. The main feature is the Green Hours planner. It uses live generation data for the German electricity market from the Bundesnetzagentur's SMARD platform to tell each user the lowest-\cotwo{} hours for laundry, the dishwasher and charging, limited to the hours they are actually at home. The native iOS app (SwiftUI) talks to a FastAPI back-end, which handles the application logic and passes all data analysis to an R analytics service exposed through the plumber package. That analysis covers the hourly \cotwo{} forecast, recommendation ranking, association-rule mining, user clustering and the evaluation of nudges. User data is stored in PostgreSQL, and the server side runs in Docker containers. Following the course's green software requirement, the team measures the app's own energy and resource use from the first prototype onwards, reduces it in every sprint and shows the results in the app. The project runs as five Scrum sprints with rotating Scrum Master and Product Owner roles, and all progress is tracked in Jira.
 \end{abstract}
 
 \section{Introduction}
-\ph{Motivation and background}
+Students and renters in shared flats (WGs) cannot insulate their building or replace its heating, but they can change their daily habits, including \emph{when} their appliances run. The \cotwo{} intensity of German electricity changes strongly within a day as wind and solar output rises and falls, and the Bundesnetzagentur publishes the underlying data free of charge on SMARD \cite{smard}. Home Energy Coach turns this data and a short user profile into small, personal habits, and uses timely reminders, one-tap check-ins and immediate feedback to make them stick \cite{fogg,lally}.
 
-\subsection{Objectives}
-\ph{Objectives}
+\section{Objectives: What the App Will Do}
+Table~\ref{tab:obj} lists what the finished app will be able to do. Each objective has a target that is measured at the final delivery on 25 January 2027.
 
-\subsection{Problem Statement}
-\ph{Problem statement}
+\begin{table}[H]
+\caption{Objectives of Home Energy Coach}\label{tab:obj}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{0.45cm}>{\raggedright\arraybackslash}p{2.1cm}L>{\raggedright\arraybackslash}p{5.2cm}@{}}
+\toprule
+\# & Objective & What the app does & Measurable target \\
+\midrule
+O1 & Personal habit plan & After an onboarding quiz of 12 questions (flat size, flatmates, heating and hot-water type, appliances, weekly at-home hours), the user gets a top-5 list of habits that are possible in their flat. Each habit shows its saving in kWh, kg \cotwo{} and euro and a one-sentence ``why this'' reason. & 0 infeasible habits recommended for 200 synthetic test profiles; Precision@5 higher than a popularity baseline in 5-fold cross-validation \\
+O2 & Green Hours planner & By 06:00 every day, the app shows today's and tomorrow's hourly \cotwo{} curve of the German grid and the user's three greenest at-home slots for each of laundry, dishwasher and charging, with a reminder 30 minutes before each slot. & Forecast greenest 3-hour window overlaps the actual greenest window on at least 70\,\% of days in a 4-week back-test \\
+O3 & Habit loop & The user commits to one habit at a time (``on Saturday at 12:00 I start the laundry''), confirms it with one tap and sees the \cotwo{} saved and the streak at once. After 7 on-time check-ins in a row, the reminders stop and the next habit is proposed. & At least 2 of 3 pilot users keep a habit with a check-in rate of at least 70\,\% over two weeks \\
+O4 & Progress overview & A dashboard shows estimated monthly kWh, \cotwo{} and euro per end use (heating, hot water, appliances), weekly trends, optional meter readings and a checklist of one-off actions such as LED bulbs or a green tariff. & Every figure shown is traceable to a documented source (SMARD, UBA, Stromspiegel) \\
+O5 & Shared flat & Flatmates join a WG group with an invite code, agree on shared goals and compete with other flats. Only the flat's total score is shown, never who did what. & A group of 6 members passes the end-to-end test from invitation to challenge result \\
+O6 & Privacy and usability & Users see what data is stored, export or delete it, and mute reminders per habit. & Mean System Usability Scale score of at least 68 in the pilot \cite{sus}; export and deletion pass end-to-end tests \\
+O7 & Green app & The app measures its own energy and data use and shows it on the screen ``How green is this app?''. & Median server CPU time and data per user session at least 30\,\% below the Sprint~4 baseline; ``Low'' energy impact in Xcode \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-\subsection{Scope}
-\ph{In scope / out of scope}
+The app has eleven screens beyond login and basic data entry: onboarding quiz, dashboard, recommendation feed, commitment and check-in, Green Hours planner, habit library (22 habits), one-time checklist, WG challenge, trends, privacy centre and ``How green is this app?''. The course requirements are covered as follows: all analysis runs in R (Section~\ref{sec:r}), eleven interfaces are planned where eight are required, the app's own footprint is objective O7, and Scrum with rotating roles is tracked in Jira (Section~\ref{sec:plan}).
 
-\section{Methodology}
-\ph{Scrum, sprints, tooling}
+\textit{Out of scope:} Android and web clients, control of smart plugs or thermostats, automatic smart-meter integration, electricity grids outside Germany, and a public App Store release (the pilot uses TestFlight).
 
-\section{System Design}
-\ph{Architecture, analytics, data}
+\section{What R and plumber Are Used For}\label{sec:r}
+All data analysis runs in R \cite{rcore}. The \code{plumber} package \cite{plumber} is only the interface: it makes the R functions callable over HTTP by the FastAPI back-end, and the iOS app never calls R directly. R performs the six tasks in Table~\ref{tab:r}. Three of them are machine-learning or data-mining models (P3, P4, P5); the Green Hours forecast (P2) is a calculation and needs no trained model. Until real users exist, the models are trained on synthetic users built from Stromspiegel consumption data \cite{stromspiegel}, UBA end-use shares \cite{uba_hh} and REFIT appliance run times \cite{refit}, together with a student survey in Sprint~2; pilot data replace them in Sprint~5.
 
-\section{Plan and Risks}
-\ph{Timeline, risks}
+\begin{table}[H]
+\caption{Tasks of the R Service}\label{tab:r}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{0.5cm}>{\raggedright\arraybackslash}p{2.5cm}L>{\raggedright\arraybackslash}p{2.0cm}@{}}
+\toprule
+\# & Task & Method (R packages) & Runs \\
+\midrule
+P1 & Load grid data & Download the actual generation per source and the day-ahead forecast from SMARD; convert quarter-hours to hours in Europe/Berlin time and fill short gaps (\code{httr2}, \code{dplyr}, \code{lubridate}) & Nightly \\
+P2 & Green Hours forecast & SMARD's day-ahead forecast gives total, wind and solar generation. The remaining ``other'' generation is multiplied by its emission factor, estimated from the actual mix of the last 7 days and the UBA factors per source \cite{uba_ef}. The resulting g \cotwo/kWh per hour is matched to the user's at-home hours. & Nightly; after a schedule change \\
+P3 & Habit ranking & Filter by the flat's equipment and score by \cotwo{} saving, ease and schedule fit; once check-in data exist, item-based collaborative filtering adds habits that similar users kept (\code{recommenderlab}) & Nightly; after onboarding \\
+P4 & Habit stacking & Apriori rules ``users who keep habit A also keep habit B'' decide the next habit to propose (\code{arules}) & Weekly \\
+P5 & User personas & k-means clustering of at-home hours and check-in behaviour sets default reminder times for new users (\code{stats}, \code{cluster}) & Weekly \\
+P6 & Evaluation & Precision@5 (O1), back-test of P2 (O2), paired test of check-in rates before and after reminders stop (O3) (\code{recommenderlab}, \code{stats}) & Every sprint \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
+\section{Architecture}
+The native iOS app (SwiftUI) keeps the profile, check-ins and the latest forecast in a local database (SwiftData), so it works offline and schedules the Green Hours reminders on the phone. It talks over REST to a FastAPI back-end, which stores the data shared between users (accounts, WG groups, model results) in PostgreSQL and calls the R service (Fig.~\ref{fig:arch}). To keep the app's own footprint low, R runs as nightly or weekly batches instead of per request, and the back-end serves the stored results. The footprint is measured from Sprint~4 with the Xcode Energy Gauge, Docker statistics and the R packages \code{bench} and \code{profvis}, and measured again in every sprint.
+
+\begin{figure}[H]
+\centering
+\scriptsize
+\begin{tikzpicture}[
+  box/.style={draw,rounded corners=2pt,align=center,minimum width=3.3cm,minimum height=0.85cm,inner sep=2pt},
+  arr/.style={{Latex[length=1.6mm]}-{Latex[length=1.6mm]}},
+  one/.style={-{Latex[length=1.6mm]}},
+  lab/.style={font=\tiny,fill=white,inner sep=1pt}]
+\node[box] (app) {\textbf{iOS app}\\SwiftUI, local SwiftData store};
+\node[box,right=1.6cm of app] (api) {\textbf{Back-end}\\FastAPI, scheduler};
+\node[box,right=1.6cm of api] (pg) {\textbf{PostgreSQL}\\shared data, results};
+\node[box,below=0.6cm of api] (r) {\textbf{R service}\\\code{plumber}, tasks P1--P6};
+\node[box,below=0.6cm of app] (smard) {\textbf{SMARD}\\grid data};
+\draw[arr] (app) -- node[lab]{REST / JSON} (api);
+\draw[arr] (api) -- node[lab]{SQL} (pg);
+\draw[arr] (api) -- node[lab]{HTTP} (r);
+\draw[one] (smard) -- node[lab]{nightly download} (r);
+\draw[arr] (r) -| node[lab,pos=0.3]{read data, write results} (pg);
+\end{tikzpicture}
+\caption{Architecture. All server components run in Docker containers; GitHub Actions runs the tests on every pull request.}\label{fig:arch}
+\end{figure}
+
+\section{Project Plan}\label{sec:plan}
+The project runs as five Scrum sprints \cite{scrum}, tracked in Jira (project \code{HEC}). Sprint~5 is split into 5a and 5b so that each of the six members is Scrum Master once and Product Owner once (Table~\ref{tab:plan}).
+
+\begin{table}[H]
+\caption{Sprints and Scrum Roles}\label{tab:plan}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{0.4cm}p{2.0cm}L p{2.4cm}p{2.4cm}@{}}
+\toprule
+\# & Dates & Main results & Scrum Master & Product Owner \\
+\midrule
+1 & 26 Oct -- 6 Nov & Personas, user stories, Jira board, team contract, first SMARD data & M.\ Uddin & A.\ Newaz \\
+2 & 9 -- 20 Nov & Revised proposal, Figma wireframes, architecture, UML diagrams, student survey & M.\ Ambulkar & M.\ S.\ Zafar \\
+3 & 23 Nov -- 4 Dec & Back-end, database, R tasks P1--P2, first screens & M.\ R.\ H.\ Tanvir & N.\ Alam \\
+4 & 7 -- 18 Dec & R tasks P3--P5, all eleven screens, green baseline for O7 & N.\ Alam & M.\ Ambulkar \\
+5a & 4 -- 14 Jan & Two-week pilot with the team, optimisation & M.\ S.\ Zafar & M.\ Uddin \\
+5b & 15 -- 25 Jan & Evaluation of O1--O7, final report and delivery & A.\ Newaz & M.\ R.\ H.\ Tanvir \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\footnotesize\raggedright
+\begin{thebibliography}{99}\setlength{\itemsep}{0pt}
+\bibitem{smard} Bundesnetzagentur, ``SMARD -- Strommarktdaten,'' data download and API. [Online]. Available: \url{https://www.smard.de/}
+\bibitem{fogg} B. J. Fogg, ``A behavior model for persuasive design,'' in \emph{Proc. Persuasive '09}, art. 40, 2009.
+\bibitem{lally} P. Lally, C. H. M. van Jaarsveld, H. W. W. Potts, and J. Wardle, ``How are habits formed: Modelling habit formation in the real world,'' \emph{Eur. J. Soc. Psychol.}, vol. 40, no. 6, pp. 998--1009, 2010.
+\bibitem{sus} J. Brooke, ``SUS: A `quick and dirty' usability scale,'' in \emph{Usability Evaluation in Industry}, London: Taylor \& Francis, 1996, pp. 189--194.
+\bibitem{rcore} R Core Team, \emph{R: A Language and Environment for Statistical Computing}, R Foundation, Vienna, 2025.
+\bibitem{plumber} B. Schloerke and J. Allen, \emph{plumber: An API Generator for R}, R package. [Online]. Available: \url{https://www.rplumber.io/}
+\bibitem{stromspiegel} co2online gGmbH, ``Stromspiegel 2025,'' Berlin, May 2025. [Online]. Available: \url{https://www.stromspiegel.de/}
+\bibitem{uba_hh} Umweltbundesamt, ``Energieverbrauch privater Haushalte,'' 2026.
+\bibitem{refit} D. Murray, L. Stankovic, and V. Stankovic, ``An electrical load measurements dataset of United Kingdom households from a two-year longitudinal study,'' \emph{Scientific Data}, vol. 4, art. 160122, 2017.
+\bibitem{uba_ef} Umweltbundesamt, ``Entwicklung der spezifischen Treibhausgas-Emissionen des deutschen Strommix in den Jahren 1990--2025,'' Dessau-Ro\ss{}lau, Mar. 2026.
+\bibitem{scrum} K. Schwaber and J. Sutherland, ``The Scrum Guide,'' 2020. [Online]. Available: \url{https://scrumguides.org/}
+\end{thebibliography}
 \end{document}
