@@ -1,0 +1,30 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Student User\n(iOS App)" as Student
+actor "Nightly Batch\nScheduler" as Scheduler
+actor "SMARD Grid API\n(Bundesnetzagentur)" as SMARD
+
+rectangle "Home Energy Coach System" {
+  usecase "UC1: Register & Configure\nHousehold Profile" as UC1
+  usecase "UC2: Set 168-Bit Weekly\nHome Schedule" as UC2
+  usecase "UC3: View Personalized\nGreen Habit Recommendations" as UC3
+  usecase "UC4: Commit to Green Habit" as UC4
+  usecase "UC5: Log Daily Check-In &\nView CO2 Savings" as UC5
+  usecase "UC6: Fetch Hourly German\nGrid Generation Data" as UC6
+  usecase "UC7: Run Nightly ML Batch\n(Clustering & Recommendations)" as UC7
+}
+
+Student --> UC1
+Student --> UC2
+Student --> UC3
+Student --> UC4
+Student --> UC5
+
+Scheduler --> UC6
+Scheduler --> UC7
+UC6 --> SMARD : HTTPS GET (Filter 1223)
+UC7 ..> UC6 : <<include>>
+@enduml

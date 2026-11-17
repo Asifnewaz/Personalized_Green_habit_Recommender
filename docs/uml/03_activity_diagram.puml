@@ -1,0 +1,36 @@
+@startuml
+skinparam shadowing false
+
+|Student (SwiftUI App)|
+start
+:Complete Onboarding Form\n(Flat Type, Appliances, 168-bit Schedule);
+
+|FastAPI Backend|
+:Validate Payload (Pydantic);
+:Persist User Profile in PostgreSQL;
+
+|Nightly Batch Scheduler (02:00 CET)|
+:Trigger Nightly Analytics Job;
+
+|R Analytics Microservice|
+:Plumber receives POST /batch/recompute;
+:Fetch Latest SMARD Grid Data (httr2);
+:Compute Hourly CO2 Intensity Curve;
+fork
+  :Segment Users via Clustering\n(cluster / factoextra);
+fork again
+  :Generate Habit Scores via CF & Rules\n(recommenderlab / arules);
+end fork
+:Match Clean Grid Windows with\nUser 168-bit Home Availability;
+:Persist Ranked Recommendations to PostgreSQL;
+
+|Student (SwiftUI App)|
+:Open App & View Daily Habit Cards;
+:Commit to Habit & Complete Action;
+:Submit Daily Check-In;
+
+|FastAPI Backend|
+:Calculate CO2 Saved (kWh * Grid Factor);
+:Store Check-In & Update User Streak;
+stop
+@enduml

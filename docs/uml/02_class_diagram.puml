@@ -1,0 +1,88 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+package "PostgreSQL Domain Entities" {
+  class User {
+    +user_id : UUID
+    +flat_type : Enum {Single, WG}
+    +num_flatmates : Int
+    +flat_size_sqm : Float
+    +heating_type : Enum {gas, electric, district}
+    +hot_water_type : String
+    +has_washing_machine : Bool
+    +has_dishwasher : Bool
+    +baseline_annual_kwh : Float
+    +home_schedule : BitString[168]
+  }
+
+  class Habit {
+    +habit_id : Int
+    +title : String
+    +category : String
+    +requires_appliance : String
+    +est_kwh_saved_per_run : Float
+    +duration_hours : Float
+  }
+
+  class Commitment {
+    +commitment_id : UUID
+    +user_id : UUID
+    +habit_id : Int
+    +start_date : Date
+    +target_frequency : Int
+    +status : Enum {active, paused, completed}
+  }
+
+  class CheckIn {
+    +checkin_id : UUID
+    +user_id : UUID
+    +habit_id : Int
+    +timestamp : DateTime
+    +co2_saved_kg : Float
+    +completed : Bool
+  }
+
+  class GridIntensity {
+    +timestamp : DateTime
+    +total_gen_mwh : Float
+    +est_co2_g_per_kwh : Float
+    +is_clean_window : Bool
+  }
+
+  class Recommendation {
+    +rec_id : UUID
+    +user_id : UUID
+    +habit_id : Int
+    +score : Float
+    +optimal_window_start : Int
+    +generated_at : DateTime
+  }
+
+  User "1" -- "0..*" Commitment : creates >
+  Habit "1" -- "0..*" Commitment : referenced by >
+  User "1" -- "0..*" CheckIn : logs >
+  Habit "1" -- "0..*" CheckIn : tracked in >
+  User "1" -- "0..*" Recommendation : receives >
+  Habit "1" -- "0..*" Recommendation : ranked in >
+}
+
+package "Containerized R Microservice" {
+  class PlumberRouter <<REST Transport Layer>> {
+    +POST /batch/recompute
+    +GET /health
+    -serializeJSON(result) : JSON
+  }
+
+  class AnalyticsEngine <<R Domain Packages>> {
+    +ingestSmardData() : DataFrame
+    +segmentHouseholds(users) : ClusterModel
+    +mineHabitRules(checkins) : AssociationRules
+    +scoreRecommendations(users, grid) : DataFrame
+  }
+
+  PlumberRouter --> AnalyticsEngine : delegates compute >
+  AnalyticsEngine ..> GridIntensity : updates
+  AnalyticsEngine ..> Recommendation : writes batch
+}
+@enduml

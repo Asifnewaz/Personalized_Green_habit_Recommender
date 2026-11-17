@@ -1,0 +1,41 @@
+@startuml
+skinparam shadowing false
+
+actor "Student\n(SwiftUI)" as App
+participant "FastAPI\nBackend" as API
+database "PostgreSQL\nDB" as DB
+participant "R Plumber\n(Transport)" as Plumber
+participant "R Domain\nPackages" as RCore
+participant "SMARD\nExternal API" as SMARD
+
+== Flow A: Synchronous Mobile Recommendation Read & Check-In ==
+App -> API : GET /api/v1/recommendations/{user_id}
+API -> DB : SELECT ranked habits & clean windows
+DB --> API : Cached recommendation rows
+API --> App : 200 OK (JSON Habit Cards)
+
+App -> API : POST /api/v1/checkins (habit_id, completed=true)
+API -> DB : INSERT check-in + CO2 savings
+DB --> API : Check-in confirmed
+API --> App : 201 Created (Updated CO2 total)
+
+== Flow B: Asynchronous Nightly Batch Pipeline (Green Software Pattern) ==
+API -> Plumber : POST /batch/recompute (Internal Trigger)
+activate Plumber
+Plumber -> RCore : run_nightly_pipeline()
+activate RCore
+
+RCore -> SMARD : GET /app/chart_data/1223/...
+SMARD --> RCore : Hourly generation JSON
+
+RCore -> DB : Read users, checkins, commitments
+DB --> RCore : Training & profile datasets
+
+RCore -> RCore : Run cluster(), recommenderlab(), arules()
+RCore -> DB : UPSERT grid_intensity & recommendations
+RCore --> Plumber : BatchSummary(status="success", rows_updated)
+deactivate RCore
+
+Plumber --> API : 200 OK (Serialized JSON summary)
+deactivate Plumber
+@enduml

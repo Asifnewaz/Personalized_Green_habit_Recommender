@@ -1,0 +1,7 @@
+flat_type,heating_type,n_users,share_pct,mean_flatmates,mean_sqm,mean_kwh,sd_kwh,median_kwh,iqr_kwh,washing_mach_pct,dishwasher_pct
+Single,district,42,14,1,34.4,1406.8,130.9,1411,159,81,35.7
+Single,electric,12,4,1,34.2,1390.2,124,1377.5,159.2,83.3,16.7
+Single,gas,40,13.3,1,33.8,1390.3,137.7,1369.5,201.5,80,20
+WG,district,80,26.7,2.86,70.5,2889.4,655.2,2736,1046,78.8,61.3
+WG,electric,19,6.3,2.79,72.3,2951.8,507,2854,592.5,89.5,89.5
+WG,gas,107,35.7,3.03,74.9,3017.3,741.2,2870,1388,86.9,63.6
