@@ -1,29 +1,16 @@
-# ==============================================================================
-# Dockerfile: r_service/Dockerfile
-# Sprint: Sprint 3 (Home Energy Coach - R Analytics Microservice)
-# Description: Containerizes the decoupled R analytics engine + thin plumber
-#              HTTP transport layer on port 8001.
-# ==============================================================================
+FROM rocker/tidyverse:4.4.2
 
-FROM rocker/r-ver:4.4.2
-
-# Install system dependencies required by httr2, curl, openssl, and arules/forecast
+# Install system libraries for plumber (libsodium) and sparse matrix/graph deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
     libsodium-dev \
-    zlib1g-dev \
-    make \
-    g++ \
+    libglpk-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install required CRAN packages
-RUN Rscript -e "install.packages(c( \
-    'plumber', 'jsonlite', 'here', 'httr2', \
-    'dplyr', 'tidyr', 'stringr', 'lubridate', 'readr', 'purrr', \
-    'forecast', 'recommenderlab', 'arules' \
-  ), repos = 'https://cloud.r-project.org', Ncpus = 2)"
+# Install remaining CRAN packages from Posit Package Manager (pre-compiled Ubuntu binaries)
+RUN Rscript -e "options(repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/noble/latest')); \
+  pkgs <- c('plumber', 'here', 'forecast', 'recommenderlab', 'arules'); \
+  install.packages(pkgs, Ncpus = 2); \
+  invisible(lapply(c(pkgs, 'jsonlite', 'httr2', 'dplyr', 'tidyr', 'stringr', 'lubridate', 'readr', 'purrr'), library, character.only = TRUE))"
 
 WORKDIR /app
 
