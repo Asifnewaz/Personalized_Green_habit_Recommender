@@ -1,0 +1,23 @@
+habit_id,name,category,type,requires_appliance,co2_saved_kg,bundle_affinity
+1,Laundry in Green Hours,Load-Shifting,timing,washing_machine,0.4,green_hours
+2,Dishwasher in Green Hours,Load-Shifting,timing,dishwasher,0.25,green_hours
+3,Charge Devices in Clean Hours,Load-Shifting,timing,none,0.1,green_hours
+4,Run Dryer in Green Hours,Load-Shifting,timing,dryer,0.65,green_hours
+5,Batch-Cook / Bake in Green Hours,Load-Shifting,timing,none,0.3,green_hours
+6,Lower Room Heating by 1C,Heating,reduction,none,0.8,heating_water
+7,Stoßlüften (5-Min Shock Vent),Heating,reduction,none,0.5,heating_water
+8,Night Heating Setback (17C),Heating,reduction,none,0.65,heating_water
+9,Close Blinds/Curtains at Dusk,Heating,reduction,none,0.25,heating_water
+10,Keep Furniture Clear of Radiators,Heating,one_time,none,2.2,heating_water
+11,Radiator Bleeding (Air Purge),Heating,one_time,none,3.5,heating_water
+12,Shorter Showers (Under 5 Min),Hot Water,reduction,none,0.6,heating_water
+13,Wash Laundry at 30C (Cold Cycle),Appliances,reduction,washing_machine,0.35,appliance_eco
+14,Eco-Mode on Dishwasher,Appliances,reduction,dishwasher,0.2,appliance_eco
+15,Air-Dry Laundry (Skip Dryer),Appliances,reduction,dryer,0.75,appliance_eco
+16,Full-Load Only (Washer/Dishwasher),Appliances,reduction,washing_machine,0.3,appliance_eco
+17,Kettle: Boil Only Needed Water,Kitchen,reduction,none,0.12,kitchen_standby
+18,Lids on Pots While Cooking,Kitchen,reduction,none,0.18,kitchen_standby
+19,Fridge at 7C / Freezer at -18C,Kitchen,one_time,none,2.8,kitchen_standby
+20,Defrost Freezer Compartment,Kitchen,one_time,none,3.1,kitchen_standby
+21,Standby Power Strip Off Overnight,Standby,reduction,none,0.15,kitchen_standby
+22,Replace Halogen/Old Bulbs with LEDs,Lighting,one_time,none,5,kitchen_standby
