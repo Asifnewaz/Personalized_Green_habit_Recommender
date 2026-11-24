@@ -31,7 +31,7 @@ SMARD --> RCore : Hourly generation JSON
 RCore -> DB : Read users, checkins, commitments
 DB --> RCore : Training & profile datasets
 
-RCore -> RCore : Run cluster(), recommenderlab(), arules()
+RCore -> RCore : Run forecast/fable (ARIMA/ETS/STL), recommenderlab(), arules()
 RCore -> DB : UPSERT grid_intensity & recommendations
 RCore --> Plumber : BatchSummary(status="success", rows_updated)
 deactivate RCore

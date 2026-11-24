@@ -1,7 +1,7 @@
 # Synthetic Data Generation Plan (HEC-66)
 
 ## 1. Objective
-Establish a realistic synthetic dataset to address the cold-start problem prior to collecting real user adoption data from the survey and pilot. This dataset will be used to build and validate the recommendation engine (collaborative filtering), persona clustering, and habit association mining in R.
+Establish a realistic synthetic dataset to address the cold-start problem prior to collecting real user adoption data from the survey and pilot. This dataset will be used to build and validate the recommendation engine (collaborative filtering), time series analysis (ARIMA/ETS/STL on grid $\text{CO}_2$ and adherence trends), and habit association mining in R.
 
 ---
 

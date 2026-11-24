@@ -19,9 +19,11 @@ suppressPackageStartupMessages({
 })
 
 # --- 0. Directory Setup & Strict Schema Ingestion ---------------------------
-repo_root <- "C:/Users/madhu/Desktop/Green_Habit_Repo"
-fig_dir   <- file.path(repo_root, "eda", "outputs", "figures")
-tab_dir   <- file.path(repo_root, "eda", "outputs", "tables")
+# --- 0. Directory Setup & Strict Schema Ingestion ---------------------------
+# Automatically resolves repo root via .here / .git across Windows & Linux Docker
+repo_root <- here::here()
+fig_dir   <- here::here("eda", "outputs", "figures")
+tab_dir   <- here::here("eda", "outputs", "tables")
 
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(tab_dir, recursive = TRUE, showWarnings = FALSE)
@@ -29,7 +31,7 @@ dir.create(tab_dir, recursive = TRUE, showWarnings = FALSE)
 # Helper to recursively locate any file inside synthetic_plan/
 resolve_data_path <- function(filename) {
   matches <- list.files(
-    path       = file.path(repo_root, "synthetic_plan"),
+    path       = here::here("synthetic_plan"),
     pattern    = paste0("^", filename, "$"),
     recursive  = TRUE,
     full.names = TRUE
@@ -120,7 +122,7 @@ p1 <- ggplot(users, aes(x = baseline_annual_kwh, fill = flat_type)) +
 
 ggsave(file.path(fig_dir, "01_kwh_distribution_by_flat_type.png"), p1, width = 8.5, height = 5, dpi = 300)
 
-# 1C. User Check-in Completion & CO2 Savings Summary (Feature prep for Sprint 3 clustering)
+# 1C. User Check-in Completion & CO2 Savings Summary (Feature prep for Sprint 3 time series analysis)
 user_adoption <- checkins %>%
   group_by(user_id) %>%
   summarise(

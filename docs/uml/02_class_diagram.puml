@@ -76,7 +76,7 @@ package "Containerized R Microservice" {
 
   class AnalyticsEngine <<R Domain Packages>> {
     +ingestSmardData() : DataFrame
-    +segmentHouseholds(users) : ClusterModel
+    +forecastTimeSeries(grid, checkins) : TimeSeriesModel
     +mineHabitRules(checkins) : AssociationRules
     +scoreRecommendations(users, grid) : DataFrame
   }

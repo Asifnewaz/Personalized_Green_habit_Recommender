@@ -14,7 +14,7 @@ rectangle "Home Energy Coach System" {
   usecase "UC4: Commit to Green Habit" as UC4
   usecase "UC5: Log Daily Check-In &\nView CO2 Savings" as UC5
   usecase "UC6: Fetch Hourly German\nGrid Generation Data" as UC6
-  usecase "UC7: Run Nightly ML Batch\n(Clustering & Recommendations)" as UC7
+  usecase "UC7: Run Nightly ML Batch\n(Time Series & Recommendations)" as UC7
 }
 
 Student --> UC1

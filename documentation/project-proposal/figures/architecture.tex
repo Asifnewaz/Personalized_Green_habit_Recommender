@@ -18,7 +18,7 @@
 \node[box] (fe) {\textbf{Front-end}\\ native iOS app\\ Swift / SwiftUI\\[1pt] \scriptsize local notifications, offline cache};
 \node[box, right=of fe] (be) {\textbf{Back-end API}\\ FastAPI (REST/JSON)\\[1pt] \scriptsize auth, profiles, habits, commitments,\\ \scriptsize WG groups, scheduler, R bridge};
 \node[data, right=of be] (db) {\textbf{PostgreSQL}\\[1pt] \scriptsize users, flats, habits,\\ \scriptsize check-ins, grid cache,\\ \scriptsize recommendations};
-\node[box, below=14mm of be] (r) {\textbf{R analytics service}\\ \pkg{plumber} API\\[1pt] \scriptsize forecast, recommender, rules,\\ \scriptsize clustering, evaluation};
+\node[box, below=14mm of be] (r) {\textbf{R analytics service}\\ \pkg{plumber} API\\[1pt] \scriptsize forecast, recommender, rules,\\ \scriptsize time series, evaluation};
 \node[box, left=of r] (od) {\textbf{Open data}\\[1pt] \scriptsize SMARD (grid mix),\\ \scriptsize UBA factors, Stromspiegel,\\ \scriptsize REFIT};
 \draw[darr] (fe) -- node[lbl, above] {REST / JSON} (be);
 \draw[darr] (be) -- node[lbl, above] {SQL} (db);

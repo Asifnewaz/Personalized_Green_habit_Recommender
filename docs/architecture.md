@@ -14,7 +14,7 @@ The **Home Energy Coach** employs a decoupled, four-tier client-server architect
 1. **Presentation Layer (Native iOS Client — SwiftUI):** Handles student onboarding, 168-bit weekly schedule configuration, personalized habit recommendation cards, and daily check-in interactions. Communicates exclusively over HTTPS/JSON with the API Gateway.
 2. **Application & API Gateway Layer (Python FastAPI):** Acts as the central orchestrator, authentication boundary, request validator (Pydantic schemas), and asynchronous job scheduler. Isolates the iOS client from direct database access and R microservice internals.
 3. **Persistence Layer (PostgreSQL):** Relational source of truth storing normalized user household profiles (`users`), habit catalogs (`habits`), user commitments (`commitments`), longitudinal check-ins (`checkins`), cached SMARD grid intensity series (`grid_intensity`), and precomputed recommendation scores (`recommendations`).
-4. **Analytical & ML Microservice Layer (Containerized R + `plumber`):** Executes statistical clustering, association rule mining, collaborative filtering, and external SMARD grid ingestion.
+4. **Analytical & ML Microservice Layer (Containerized R + `plumber`):** Executes time series analysis (ARIMA/ETS/STL decomposition), association rule mining, collaborative filtering, and external SMARD grid ingestion.
 
 ---
 
@@ -23,7 +23,7 @@ The **Home Energy Coach** employs a decoupled, four-tier client-server architect
 ### 2.1 Strict Separation of `plumber` Transport vs. Domain R Packages
 Per supervisor architectural review, **`plumber` is restricted strictly to REST endpoint routing, HTTP request parsing, and JSON serialization**. No statistical, data-wrangling, or machine learning logic is permitted inside `plumber.R` endpoint definitions. All analytical execution is encapsulated within modular, unit-tested internal R scripts and specialized CRAN packages:
 * **Data Ingestion & Wrangling:** `dplyr`, `tidyr`, `lubridate`, `httr2` / `bunddev` (Bundesnetzagentur SMARD API Filter 1223).
-* **Household Segmentation:** `cluster`, `factoextra` (k-means / PAM clustering on household demand, heating type, and 168-bit schedule availability).
+* **Time Series Analysis & Forecasting:** `forecast` / `fable` + `tsibble` (STL decomposition, ARIMA, and ETS models on hourly SMARD grid $\text{CO}_2$ intensity and longitudinal user check-in adherence trends).
 * **Habit Recommendation & Pattern Mining:** `recommenderlab` (collaborative filtering on check-in histories) and `arules` (frequent habit co-adoption rules).
 * **Statistical Calibration:** `stats` ($\text{CO}_2$ savings estimation anchored to UBA $344\text{ g CO}_2/\text{kWh}$ and Stromspiegel 2025 baselines).
 
@@ -42,7 +42,7 @@ Rather than running computationally expensive ML training and recommendation sco
 | **Mobile Client** | SwiftUI (iOS) | Onboarding form, schedule picker, habit feed, daily check-in logging |
 | **Backend API** | Python FastAPI | JWT auth, CRUD endpoints, Pydantic validation, nightly cron trigger |
 | **Database** | PostgreSQL 16 | ACID persistence for user profiles, check-ins, SMARD cache, ML outputs |
-| **Analytics Service** | R 4.6.2 + `plumber` (Docker) | Thin HTTP wrapper invoking batch R pipelines (`cluster`, `recommenderlab`, `arules`) |
+| **Analytics Service** | R 4.6.2 + `plumber` (Docker) | Thin HTTP wrapper invoking batch R pipelines (`forecast`/`fable`, `recommenderlab`, `arules`) |
 | **External Data** | SMARD REST API | Hourly German electricity generation mix (Filter 1223) |
 
 ---

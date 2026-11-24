@@ -17,7 +17,7 @@ start
 :Fetch Latest SMARD Grid Data (httr2);
 :Compute Hourly CO2 Intensity Curve;
 fork
-  :Segment Users via Clustering\n(cluster / factoextra);
+  :Run Time Series Analysis & Forecasting\n(forecast / fable / tsibble: ARIMA, ETS, STL);
 fork again
   :Generate Habit Scores via CF & Rules\n(recommenderlab / arules);
 end fork
