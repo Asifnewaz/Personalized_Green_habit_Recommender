@@ -1,0 +1,1173 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ %@ before, %@ now" : {
+      "comment" : "Effect summary",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ before, %3$@ now"
+          }
+        }
+      }
+    },
+    "%@ before" : {
+      "comment" : "Effect before"
+    },
+    "%@ challenge · %lld days left" : {
+      "comment" : "WG challenge header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ challenge · %2$lld days left"
+          }
+        }
+      }
+    },
+    "%@ hasn't signed yet" : {
+      "comment" : "WG agreement status"
+    },
+    "%@ now" : {
+      "comment" : "Effect after"
+    },
+    "%@ per day of use" : {
+      "comment" : "Green software headline"
+    },
+    "%@, %@. %@. Fit %lld of 3." : {
+      "comment" : "Recommended habit accessibility summary",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@. %3$@. Fit %4$lld of 3."
+          }
+        }
+      }
+    },
+    "%@%lld%% vs last week" : {
+      "comment" : "Weekly trend tag",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$lld%% vs last week"
+          }
+        }
+      }
+    },
+    "%lld check-ins in the last 4 weeks" : {
+      "comment" : "Check-in grid summary"
+    },
+    "%lld flatmates haven't signed yet" : {
+      "comment" : "WG agreement status"
+    },
+    "%lld habits" : {
+      "comment" : "Habit catalogue title"
+    },
+    "%lld kg" : {
+      "comment" : "Footprint value in kg"
+    },
+    "%lld of %lld" : {
+      "comment" : "Accessibility value of the page indicator, e.g. '1 of 3'",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld done" : {
+      "comment" : "Quick wins progress",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld done"
+          }
+        }
+      }
+    },
+    "< 50 m²" : {
+      "comment" : "Flat size option"
+    },
+    "> 110 m²" : {
+      "comment" : "Flat size option"
+    },
+    "~%lld days typical" : {
+      "comment" : "Habit typical duration"
+    },
+    "1 / week" : {
+      "comment" : "Reminder frequency"
+    },
+    "2–3 times" : {
+      "comment" : "Nudge frequency"
+    },
+    "2/3" : {
+      "comment" : "Share of household energy used for heating"
+    },
+    "3 / week" : {
+      "comment" : "Reminder frequency"
+    },
+    "4 of 5 similar users kept it" : {
+      "comment" : "Habit H07 reason\nRecommendation reason"
+    },
+    "5–10 min" : {
+      "comment" : "Shower duration option"
+    },
+    "20°C in shared rooms" : {
+      "comment" : "WG rule"
+    },
+    "30 laundry loads in green hours" : {
+      "comment" : "WG challenge title"
+    },
+    "50–80 m²" : {
+      "comment" : "Flat size option"
+    },
+    "80–110 m²" : {
+      "comment" : "Flat size option"
+    },
+    "A personal energy coach for your WG, timed to Germany's real grid data." : {
+      "comment" : "Welcome subheadline"
+    },
+    "A plan for your flat" : {
+      "comment" : "Welcome feature 1 title"
+    },
+    "A washing machine with a green leaf badge next to a window overlooking wind turbines." : {
+      "comment" : "Intro page 2 illustration description"
+    },
+    "About %lld g CO₂/kWh, %@ the %@ peak (%lld g)." : {
+      "comment" : "Green window summary",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About %1$lld g CO₂/kWh, %2$@ the %3$@ peak (%4$lld g)."
+          }
+        }
+      }
+    },
+    "Account" : {
+      "comment" : "Account screens nav title"
+    },
+    "Afternoon" : {
+      "comment" : "Part of day"
+    },
+    "Agree on a WG energy agreement" : {
+      "comment" : "Habit H22"
+    },
+    "Airing times" : {
+      "comment" : "When to do the habit"
+    },
+    "Already have an account?" : {
+      "comment" : "Sign-up footer prompt"
+    },
+    "Also good for you" : {
+      "comment" : "Plan section"
+    },
+    "Answer 6 quick questions. We estimate your flat's footprint and compare it with similar WGs. No meter needed." : {
+      "comment" : "Intro page 1 body"
+    },
+    "At least 8 characters" : {
+      "comment" : "Password placeholder"
+    },
+    "Automates the standby habit" : {
+      "comment" : "Quick win detail"
+    },
+    "automatic" : {
+      "comment" : "Habit strength unit"
+    },
+    "Automatic" : {
+      "comment" : "Habit scale"
+    },
+    "Back" : {
+      "comment" : "Back button accessibility label"
+    },
+    "Baseline and user type" : {
+      "comment" : "Data use"
+    },
+    "Batch cooking" : {
+      "comment" : "Habit H04\nTiming habit"
+    },
+    "Biggest impact" : {
+      "comment" : "Quick win badge"
+    },
+    "Biggest lever for heating-heavy WGs" : {
+      "comment" : "Habit H05 reason"
+    },
+    "Bleed the radiators" : {
+      "comment" : "Habit H20"
+    },
+    "Boiler and radiators" : {
+      "comment" : "Heating option detail"
+    },
+    "Build my plan" : {
+      "comment" : "Final setup action"
+    },
+    "Building" : {
+      "comment" : "Habit scale"
+    },
+    "Built from your answers and WGs like yours" : {
+      "comment" : "Welcome feature 1 subtitle"
+    },
+    "Cancel" : {
+      "comment" : "Alert action"
+    },
+    "Central boiler" : {
+      "comment" : "Hot water option"
+    },
+    "Charge devices in green hours" : {
+      "comment" : "Habit H03"
+    },
+    "Charge laptop & e-bike" : {
+      "comment" : "Timing habit"
+    },
+    "Check in today" : {
+      "comment" : "Habit primary action"
+    },
+    "Check the fridge seals" : {
+      "comment" : "Habit H19"
+    },
+    "Check-ins" : {
+      "comment" : "Data input"
+    },
+    "Check-ins · last 4 weeks" : {
+      "comment" : "Check-in card"
+    },
+    "Check-ins and reminders that fade as habits stick" : {
+      "comment" : "Welcome feature 3 subtitle"
+    },
+    "Checked in today" : {
+      "comment" : "Habit primary action done"
+    },
+    "Checklist" : {
+      "comment" : "Habit category mechanism"
+    },
+    "Choose a green electricity tariff" : {
+      "comment" : "Habit H21"
+    },
+    "Clean" : {
+      "comment" : "Chart legend"
+    },
+    "CO₂ saved" : {
+      "comment" : "Impact stat"
+    },
+    "Coaching until it's automatic" : {
+      "comment" : "Welcome feature 3 title"
+    },
+    "Continue" : {
+      "comment" : "Setup primary action"
+    },
+    "cooking" : {
+      "comment" : "Habit topic"
+    },
+    "CPU per session" : {
+      "comment" : "Software metric"
+    },
+    "Create account" : {
+      "comment" : "Log-in footer link\nSign-up primary action"
+    },
+    "Create your account" : {
+      "comment" : "Sign-up title"
+    },
+    "Cutting CO₂" : {
+      "comment" : "Coach focus option"
+    },
+    "Daily" : {
+      "comment" : "Nudge frequency"
+    },
+    "Data & privacy" : {
+      "comment" : "Impact link\nPrivacy nav title"
+    },
+    "Day %lld · %lld%% automatic" : {
+      "comment" : "Habit progress status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Day %1$lld · %2$lld%% automatic"
+          }
+        }
+      }
+    },
+    "Day %lld. Habits take about %lld days on average, and one missed day doesn't reset your progress." : {
+      "comment" : "Habit strength explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Day %1$lld. Habits take about %2$lld days on average, and one missed day doesn't reset your progress."
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "comment" : "Alert action"
+    },
+    "Delete account" : {
+      "comment" : "Privacy action"
+    },
+    "Delete your account?" : {
+      "comment" : "Delete account confirmation title"
+    },
+    "Did the coaching work?" : {
+      "comment" : "Impact comparison card"
+    },
+    "dishwasher" : {
+      "comment" : "Habit topic"
+    },
+    "Dishwasher" : {
+      "comment" : "Appliance\nTiming habit"
+    },
+    "Dishwasher in green hours" : {
+      "comment" : "Habit H02"
+    },
+    "Dishwasher runs per week" : {
+      "comment" : "Appliance usage question"
+    },
+    "District heating" : {
+      "comment" : "Heating option"
+    },
+    "Do it once, save every year." : {
+      "comment" : "Quick wins subtitle"
+    },
+    "Doing it with my WG" : {
+      "comment" : "Coach focus option"
+    },
+    "Done in week 1" : {
+      "comment" : "Quick win done detail"
+    },
+    "Done in week 2" : {
+      "comment" : "Quick win done detail"
+    },
+    "Done today" : {
+      "comment" : "Quick win done detail"
+    },
+    "Doors closed between heated and unheated rooms" : {
+      "comment" : "Habit H08\nWG rule"
+    },
+    "Dryer" : {
+      "comment" : "Appliance"
+    },
+    "Durchlauferhitzer in the bathroom" : {
+      "comment" : "Hot water option detail"
+    },
+    "E-scooter" : {
+      "comment" : "Appliance"
+    },
+    "e.g. 2,100 kWh" : {
+      "comment" : "Yearly kWh placeholder"
+    },
+    "e.g. 60311" : {
+      "comment" : "Postcode placeholder"
+    },
+    "e.g. SONNE-12" : {
+      "comment" : "Invite code placeholder"
+    },
+    "Effort" : {
+      "comment" : "Habit fact"
+    },
+    "Electric and efficient" : {
+      "comment" : "Heating option detail"
+    },
+    "Electric heaters" : {
+      "comment" : "Heating option"
+    },
+    "Electric instant heater" : {
+      "comment" : "Hot water option"
+    },
+    "Electric tank" : {
+      "comment" : "Hot water option"
+    },
+    "electronics" : {
+      "comment" : "Habit topic"
+    },
+    "Email" : {
+      "comment" : "Log-in field\nSign-up field"
+    },
+    "Energy per day, by sprint" : {
+      "comment" : "Green software chart"
+    },
+    "Estimated footprint" : {
+      "comment" : "Footprint card title"
+    },
+    "Estimated footprint: %lld kilograms CO₂ per month. Similar WGs: %lld kilograms." : {
+      "comment" : "Footprint card accessibility summary",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Estimated footprint: %1$lld kilograms CO₂ per month. Similar WGs: %2$lld kilograms."
+          }
+        }
+      }
+    },
+    "Evening" : {
+      "comment" : "Part of day"
+    },
+    "Every input has one job. Nothing else is collected." : {
+      "comment" : "Privacy subtitle"
+    },
+    "Everyone has signed" : {
+      "comment" : "WG agreement status"
+    },
+    "Everything a renter can change without touching the building." : {
+      "comment" : "Catalogue subtitle"
+    },
+    "Export data" : {
+      "comment" : "Privacy action"
+    },
+    "Export failed" : {
+      "comment" : "Export error title"
+    },
+    "Fair" : {
+      "comment" : "Password strength"
+    },
+    "Fan heater" : {
+      "comment" : "Appliance"
+    },
+    "Fernwärme" : {
+      "comment" : "Heating option detail"
+    },
+    "Filters the list" : {
+      "comment" : "Category tile hint"
+    },
+    "Flat size" : {
+      "comment" : "Setup section"
+    },
+    "Forgot password?" : {
+      "comment" : "Log-in link"
+    },
+    "Freezer" : {
+      "comment" : "Appliance"
+    },
+    "Gaming PC" : {
+      "comment" : "Appliance"
+    },
+    "Gas central heating" : {
+      "comment" : "Heating option"
+    },
+    "Get started" : {
+      "comment" : "Welcome primary action"
+    },
+    "Good time for %@ · %@" : {
+      "comment" : "Green window card subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Good time for %1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "Green habits that stick." : {
+      "comment" : "Welcome headline"
+    },
+    "Green Hours" : {
+      "comment" : "Tab title"
+    },
+    "Green Hours forecast" : {
+      "comment" : "Data use"
+    },
+    "Green Hours prompts" : {
+      "comment" : "Habit category mechanism"
+    },
+    "Green software" : {
+      "comment" : "Green software nav title\nImpact link"
+    },
+    "Green window until %@" : {
+      "comment" : "Green window card title"
+    },
+    "Greenest window" : {
+      "comment" : "Green Hours title"
+    },
+    "Habit" : {
+      "comment" : "Habit detail nav title"
+    },
+    "habit automatic" : {
+      "comment" : "Impact stat"
+    },
+    "Habit catalogue" : {
+      "comment" : "Catalogue nav title"
+    },
+    "Habit in progress" : {
+      "comment" : "Home habit card eyebrow"
+    },
+    "Habit loop" : {
+      "comment" : "Habit category mechanism"
+    },
+    "Habit strength" : {
+      "comment" : "Habit strength card"
+    },
+    "habits in progress" : {
+      "comment" : "Impact stat"
+    },
+    "Heat pump" : {
+      "comment" : "Heating option"
+    },
+    "heating" : {
+      "comment" : "Habit topic"
+    },
+    "heating habits H05–H08, your biggest lever" : {
+      "comment" : "What the heating answer personalises"
+    },
+    "Heating is about two-thirds of your energy, so your plan starts there." : {
+      "comment" : "Plan explanation"
+    },
+    "Heating-heavy" : {
+      "comment" : "User type name"
+    },
+    "Hi %@" : {
+      "comment" : "Home greeting"
+    },
+    "High" : {
+      "comment" : "Impact level"
+    },
+    "High CO₂" : {
+      "comment" : "Chart legend"
+    },
+    "Home" : {
+      "comment" : "Tab title"
+    },
+    "Home Energy Coach" : {
+      "comment" : "App name shown in the intro header\nApp name shown in the welcome header"
+    },
+    "hot water" : {
+      "comment" : "Habit topic"
+    },
+    "hot-water habits, e.g. H09 shorter showers" : {
+      "comment" : "What the hot-water answers personalise"
+    },
+    "Hourly grid CO₂ forecast. Greenest window %@. %@" : {
+      "comment" : "Forecast chart accessibility summary",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hourly grid CO₂ forecast. Greenest window %1$@. %2$@"
+          }
+        }
+      }
+    },
+    "How green is this app?" : {
+      "comment" : "Green software eyebrow"
+    },
+    "how habits are ranked and how often you're nudged" : {
+      "comment" : "What the focus answers personalise"
+    },
+    "How is your flat heated?" : {
+      "comment" : "Setup step 3 question"
+    },
+    "How is your water heated?" : {
+      "comment" : "Setup step 2 question"
+    },
+    "How many people live in your WG?" : {
+      "comment" : "Setup step 1 question"
+    },
+    "I agree to the Terms and the Privacy Policy." : {
+      "comment" : "Sign-up consent"
+    },
+    "I already have an account" : {
+      "comment" : "Welcome secondary action"
+    },
+    "Impact" : {
+      "comment" : "Habit fact\nTab title"
+    },
+    "Improve recommendations" : {
+      "comment" : "Setup toggle"
+    },
+    "Improve recommendations anonymously" : {
+      "comment" : "Privacy switch"
+    },
+    "In plan" : {
+      "comment" : "Habit status"
+    },
+    "Including you" : {
+      "comment" : "Household size subtitle"
+    },
+    "Is it working?" : {
+      "comment" : "Effect card"
+    },
+    "kg CO₂" : {
+      "comment" : "Weekly CO₂ unit"
+    },
+    "kg CO₂ / month" : {
+      "comment" : "Footprint unit"
+    },
+    "laundry" : {
+      "comment" : "Habit H01 short name\nHabit topic"
+    },
+    "Laundry" : {
+      "comment" : "Timing habit"
+    },
+    "Laundry in green hours" : {
+      "comment" : "Impact metric"
+    },
+    "Laundry loads per week" : {
+      "comment" : "Appliance usage question"
+    },
+    "Laundry only in green hours" : {
+      "comment" : "WG rule"
+    },
+    "Leaky seals waste cooling" : {
+      "comment" : "Quick win detail"
+    },
+    "Lena" : {
+      "comment" : "Sign-up name placeholder"
+    },
+    "lena@example.de" : {
+      "comment" : "Email placeholder"
+    },
+    "less than half of" : {
+      "comment" : "Intensity comparison"
+    },
+    "Let's go" : {
+      "comment" : "Primary button on the last intro page"
+    },
+    "Lets us suggest starting it while you sleep" : {
+      "comment" : "Setup toggle detail"
+    },
+    "Live SMARD data shows when Germany's power is cleanest. We match it to the hours you're at home." : {
+      "comment" : "Intro page 2 body"
+    },
+    "Live SMARD forecast, matched to when you're home" : {
+      "comment" : "Welcome feature 2 subtitle"
+    },
+    "loads in green hours" : {
+      "comment" : "Habit effectiveness metric"
+    },
+    "Location, contacts, microphone" : {
+      "comment" : "Data never collected"
+    },
+    "Log in" : {
+      "comment" : "Log-in primary action\nSign-up footer link\nTop-right button on the last intro page"
+    },
+    "Low" : {
+      "comment" : "Effort level"
+    },
+    "Lower bills for the WG" : {
+      "comment" : "Coach focus detail"
+    },
+    "lower than" : {
+      "comment" : "Intensity comparison"
+    },
+    "Lower the thermostat by 1°C" : {
+      "comment" : "Habit H05"
+    },
+    "Make it stick" : {
+      "comment" : "Intro page 3 topic"
+    },
+    "Makes habits shared" : {
+      "comment" : "Quick win detail"
+    },
+    "Midday" : {
+      "comment" : "Part of day"
+    },
+    "Morning" : {
+      "comment" : "Part of day"
+    },
+    "Name" : {
+      "comment" : "Sign-up field"
+    },
+    "Network per day" : {
+      "comment" : "Software metric"
+    },
+    "Never collected" : {
+      "comment" : "Data input"
+    },
+    "Never collected: location, contacts, microphone" : {
+      "comment" : "Data never collected"
+    },
+    "New here?" : {
+      "comment" : "Log-in footer prompt"
+    },
+    "Next" : {
+      "comment" : "Habit status\nNext habit tag\nPrimary button on intro pages"
+    },
+    "Next habit for you" : {
+      "comment" : "Plan title"
+    },
+    "Next-habit ranking, habit pairs" : {
+      "comment" : "Data use"
+    },
+    "Night" : {
+      "comment" : "Part of day"
+    },
+    "No habits match your search." : {
+      "comment" : "Catalogue empty state"
+    },
+    "none" : {
+      "comment" : "Reminder frequency"
+    },
+    "Not now" : {
+      "comment" : "Plan secondary action"
+    },
+    "Not sure" : {
+      "comment" : "Hot water option"
+    },
+    "November" : {
+      "comment" : "Challenge month"
+    },
+    "Now" : {
+      "comment" : "Reminder period"
+    },
+    "Nudges per week" : {
+      "comment" : "Setup section"
+    },
+    "of %lld done" : {
+      "comment" : "Quick wins progress"
+    },
+    "of a German household's energy goes to heating. That's why heating habits come first." : {
+      "comment" : "Heating share explanation"
+    },
+    "OK" : {
+      "comment" : "Alert action"
+    },
+    "One decision, big impact" : {
+      "comment" : "Quick win detail"
+    },
+    "One-time" : {
+      "comment" : "Habit category"
+    },
+    "one-time actions" : {
+      "comment" : "Impact stat"
+    },
+    "One-time actions" : {
+      "comment" : "Quick wins title"
+    },
+    "Opens quick wins" : {
+      "comment" : "Impact stat hint"
+    },
+    "Opens your WG agreement" : {
+      "comment" : "Quick win hint"
+    },
+    "Oven" : {
+      "comment" : "Appliance"
+    },
+    "Over 10 min" : {
+      "comment" : "Shower duration option"
+    },
+    "Page" : {
+      "comment" : "Accessibility label of the onboarding page indicator"
+    },
+    "Pairs with H01" : {
+      "comment" : "Habit pairing"
+    },
+    "Pairs with H05 · thermostat −1°C" : {
+      "comment" : "Recommendation reason"
+    },
+    "Password" : {
+      "comment" : "Log-in field\nSign-up field"
+    },
+    "Password strength" : {
+      "comment" : "Accessibility label of the password meter"
+    },
+    "People" : {
+      "comment" : "Household size title"
+    },
+    "People including you" : {
+      "comment" : "Household stepper accessibility label"
+    },
+    "Personalises" : {
+      "comment" : "Tag explaining what a setup answer affects"
+    },
+    "Placeholder values until we measure the first prototype." : {
+      "comment" : "Green software note"
+    },
+    "Plan" : {
+      "comment" : "Tab title"
+    },
+    "Plug in during the window" : {
+      "comment" : "Timing habit detail"
+    },
+    "Postcode" : {
+      "comment" : "Setup field"
+    },
+    "Power strips off at night" : {
+      "comment" : "Habit H14"
+    },
+    "Prompts at the greenest hour" : {
+      "comment" : "Welcome feature 2 title"
+    },
+    "Public SMARD data" : {
+      "comment" : "Data input"
+    },
+    "Quick wins" : {
+      "comment" : "Quick wins nav title"
+    },
+    "Quiz answers" : {
+      "comment" : "Data input"
+    },
+    "R · before / after comparison of check-ins" : {
+      "comment" : "Impact method"
+    },
+    "R · before / after test on your check-ins" : {
+      "comment" : "Effect method"
+    },
+    "R · k-means clustering" : {
+      "comment" : "Data method"
+    },
+    "R · recommenderlab, arules" : {
+      "comment" : "Data method"
+    },
+    "R · time-series forecast" : {
+      "comment" : "Data method"
+    },
+    "R models run in one nightly batch, not per request" : {
+      "comment" : "Green software change"
+    },
+    "Ranked for your WG" : {
+      "comment" : "Plan eyebrow"
+    },
+    "Reduction" : {
+      "comment" : "Habit category"
+    },
+    "Reduction · electronics" : {
+      "comment" : "Habit category line"
+    },
+    "Reduction · heating" : {
+      "comment" : "Habit category line"
+    },
+    "Reduction · hot water" : {
+      "comment" : "Habit category line"
+    },
+    "Remember me" : {
+      "comment" : "Log-in option"
+    },
+    "Reminders" : {
+      "comment" : "Privacy switch"
+    },
+    "Reminders fade as it sticks" : {
+      "comment" : "Reminders card"
+    },
+    "Reset password" : {
+      "comment" : "Placeholder title for password reset"
+    },
+    "Run it when the grid is greenest." : {
+      "comment" : "Intro page 2 title"
+    },
+    "Run laundry in green hours" : {
+      "comment" : "Habit H01"
+    },
+    "Same system as your heating" : {
+      "comment" : "Hot water option detail"
+    },
+    "Saturday, you're home" : {
+      "comment" : "Timing habit detail"
+    },
+    "Saving money" : {
+      "comment" : "Coach focus option"
+    },
+    "Search" : {
+      "comment" : "Catalogue search field"
+    },
+    "See all %lld habits →" : {
+      "comment" : "Plan link to catalogue"
+    },
+    "See where your WG's energy goes." : {
+      "comment" : "Intro page 1 title"
+    },
+    "See your impact in kg" : {
+      "comment" : "Coach focus detail"
+    },
+    "Seeing my progress" : {
+      "comment" : "Coach focus option"
+    },
+    "Server work per user" : {
+      "comment" : "Software metric"
+    },
+    "Set the delay timer tonight" : {
+      "comment" : "Timing habit detail"
+    },
+    "Set up your plan" : {
+      "comment" : "Plan setup nav title"
+    },
+    "Share check-ins anonymously with the R models" : {
+      "comment" : "Setup toggle detail"
+    },
+    "Share progress with my WG" : {
+      "comment" : "Privacy switch"
+    },
+    "Shared challenges and agreements" : {
+      "comment" : "Coach focus detail"
+    },
+    "Shorter showers" : {
+      "comment" : "Habit H09"
+    },
+    "Signed" : {
+      "comment" : "WG agreement signatures"
+    },
+    "Since you started · %lld weeks" : {
+      "comment" : "Impact eyebrow"
+    },
+    "Skip" : {
+      "comment" : "Top-right button on intro pages"
+    },
+    "Small boiler under the sink" : {
+      "comment" : "Hot water option detail"
+    },
+    "Small habits. Real impact. Together." : {
+      "comment" : "Intro page 3 title"
+    },
+    "Small payloads, no autoplay media" : {
+      "comment" : "Green software change"
+    },
+    "SMARD data cached once a day" : {
+      "comment" : "Green software change"
+    },
+    "Smart power strip or timer plug" : {
+      "comment" : "Habit H18"
+    },
+    "Soon" : {
+      "comment" : "Reminder period"
+    },
+    "Start" : {
+      "comment" : "Habit scale"
+    },
+    "Start habit" : {
+      "comment" : "Plan primary action"
+    },
+    "Start my plan" : {
+      "comment" : "Plan summary primary action"
+    },
+    "Started" : {
+      "comment" : "Plan habit started state"
+    },
+    "Step %lld of %lld" : {
+      "comment" : "Plan setup progress label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Step %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "Step %lld of %lld, %@" : {
+      "comment" : "VoiceOver label for the intro step, e.g. 'Step 1 of 3, Understand'",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Step %1$lld of %2$lld, %3$@"
+          }
+        }
+      }
+    },
+    "Storage or plug-in" : {
+      "comment" : "Heating option detail"
+    },
+    "Stoßlüften" : {
+      "comment" : "Habit H07 short name"
+    },
+    "Stoßlüften instead of a tilted window" : {
+      "comment" : "Habit H07\nHabit H07 long title"
+    },
+    "Stoßlüften, not a tilted window" : {
+      "comment" : "Habit H07"
+    },
+    "Strong" : {
+      "comment" : "Password strength"
+    },
+    "Sunday lunch" : {
+      "comment" : "Timing habit detail"
+    },
+    "Swap remaining bulbs for LEDs" : {
+      "comment" : "Habit H17"
+    },
+    "Thermostat set point" : {
+      "comment" : "Impact metric"
+    },
+    "This app's own footprint" : {
+      "comment" : "Impact link detail"
+    },
+    "This screen is coming soon." : {
+      "comment" : "Placeholder screen message"
+    },
+    "This week · WG %@" : {
+      "comment" : "Weekly card title"
+    },
+    "Three hands high-fiving above a small house with a sprouting plant." : {
+      "comment" : "Intro page 3 illustration description"
+    },
+    "Time it right" : {
+      "comment" : "Intro page 2 topic"
+    },
+    "Timing" : {
+      "comment" : "Habit category"
+    },
+    "Timing · laundry" : {
+      "comment" : "Habit category line"
+    },
+    "timing habits H01–H04 in green hours" : {
+      "comment" : "What the appliance answers personalise"
+    },
+    "Tips ranked for your flat, check-ins that turn them into routine, and a WG challenge to share the wins." : {
+      "comment" : "Intro page 3 body"
+    },
+    "Tomorrow · Tue 24 Nov · SMARD forecast" : {
+      "comment" : "Forecast day label"
+    },
+    "Trends and habit strength" : {
+      "comment" : "Coach focus detail"
+    },
+    "Try \"shower\" or \"laundry\"" : {
+      "comment" : "Catalogue search placeholder"
+    },
+    "Two flatmates relaxing in a cosy living room beneath a rising energy bar chart." : {
+      "comment" : "Intro page 1 illustration description"
+    },
+    "Under 5 min" : {
+      "comment" : "Shower duration option"
+    },
+    "Understand" : {
+      "comment" : "Intro page 1 topic"
+    },
+    "Use Face ID" : {
+      "comment" : "Log-in biometric action"
+    },
+    "User type 1 of 3 · R k-means" : {
+      "comment" : "User type source"
+    },
+    "Very strong" : {
+      "comment" : "Password strength"
+    },
+    "Wash at 30°C, full loads" : {
+      "comment" : "Habit H12"
+    },
+    "Washer" : {
+      "comment" : "Appliance"
+    },
+    "Washer has a delay timer" : {
+      "comment" : "Setup toggle"
+    },
+    "We use the usual setup" : {
+      "comment" : "Hot water option detail"
+    },
+    "Weak" : {
+      "comment" : "Password strength"
+    },
+    "Weekdays" : {
+      "comment" : "Availability column"
+    },
+    "Weekend" : {
+      "comment" : "Availability column"
+    },
+    "Weekly" : {
+      "comment" : "Nudge frequency"
+    },
+    "Weeks 1–2" : {
+      "comment" : "Reminder period"
+    },
+    "Welcome back" : {
+      "comment" : "Log-in title"
+    },
+    "WG" : {
+      "comment" : "Tab title"
+    },
+    "WG %@ · %lld flatmates" : {
+      "comment" : "WG header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "WG %1$@ · %2$lld flatmates"
+          }
+        }
+      }
+    },
+    "WG agreement" : {
+      "comment" : "WG agreement title"
+    },
+    "WG invite code (optional)" : {
+      "comment" : "Sign-up field"
+    },
+    "What each input is used for" : {
+      "comment" : "Impact link detail"
+    },
+    "What should your coach focus on?" : {
+      "comment" : "Setup step 6 question"
+    },
+    "What we changed" : {
+      "comment" : "Green software section"
+    },
+    "What your data does" : {
+      "comment" : "Privacy title"
+    },
+    "When" : {
+      "comment" : "Habit fact"
+    },
+    "When are you usually home?" : {
+      "comment" : "Setup step 5 question"
+    },
+    "when Green Hours prompts reach you" : {
+      "comment" : "What the availability answers personalise"
+    },
+    "Which appliances do you have?" : {
+      "comment" : "Setup step 4 question"
+    },
+    "Why this is for you" : {
+      "comment" : "Recommendation reasons header"
+    },
+    "Yearly kWh from your bill (optional)" : {
+      "comment" : "Setup field"
+    },
+    "You're home" : {
+      "comment" : "Chart legend"
+    },
+    "You're home Saturdays 12–15" : {
+      "comment" : "Habit H01 reason"
+    },
+    "your baseline, compared with similar WGs" : {
+      "comment" : "What the household answers personalise"
+    },
+    "Your first %lld habits" : {
+      "comment" : "Plan summary section"
+    },
+    "Your impact" : {
+      "comment" : "Impact title"
+    },
+    "Your plan is ready" : {
+      "comment" : "Plan summary eyebrow"
+    },
+    "Your plan learns from your check-ins, so we keep them with your account." : {
+      "comment" : "Sign-up subtitle"
+    },
+    "Your plan, check-ins and settings will be removed. This can't be undone." : {
+      "comment" : "Delete account confirmation message"
+    },
+    "Your timing habits" : {
+      "comment" : "Green Hours section"
+    },
+    "Your usual shower" : {
+      "comment" : "Setup section"
+    },
+    "Your WG" : {
+      "comment" : "WG title"
+    },
+    "Your WG is heating-heavy" : {
+      "comment" : "Recommendation reason"
+    },
+    "Your WG is heating-heavy." : {
+      "comment" : "Plan headline"
+    },
+    "Your WG saved 4.1 kg of CO₂ this week." : {
+      "comment" : "Log-in subtitle"
+    },
+    "Your WG vs. similar WGs (%lld kg)" : {
+      "comment" : "Footprint comparison"
+    },
+    "Your WG's user type, 1 of 3 found by R k-means" : {
+      "comment" : "User type explanation"
+    },
+    "Your window" : {
+      "comment" : "Chart legend"
+    }
+  },
+  "version" : "1.0"
+}
